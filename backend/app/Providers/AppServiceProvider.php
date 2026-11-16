@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Payments\FakePaymentProvider;
 use App\Payments\PaymentProvider;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,6 +23,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Outside production, loading a relation lazily (one query per row, the N+1 problem) throws
+        // instead of silently running extra queries, so tests catch a missing eager load. Production
+        // keeps working (just slower) if one ever slips through.
+        Model::preventLazyLoading(! $this->app->isProduction());
     }
 }

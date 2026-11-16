@@ -386,7 +386,7 @@ GitHub Actions CI, review for N+1 queries and missing validation, final README
 (live URL, demo account, test cards, architecture diagram, data model, scope decisions,
 "what I would do next", Render Postgres expiry date).
 Export AI chat logs to `ai-logs/` as Markdown: a small script converts the Claude Code transcripts
-(JSONL in `C:\Users\grubl\.claude\projects\`, both the old OneDrive-path folder and the
+(JSONL in `%USERPROFILE%\.claude\projects\`, both the old OneDrive-path folder and the
 `C--dev-enebaproject` folder) to Markdown and scrubs secrets and personal data; the user reviews the
 result before it is committed.
 *Done when:* the full purchase flow works on the public URL from a fresh browser.
