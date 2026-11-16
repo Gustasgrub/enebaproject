@@ -28,4 +28,10 @@
   body {
     @apply bg-page font-sans text-white antialiased;
   }
+
+  /* A clear keyboard focus ring everywhere (only for keyboard focus, not mouse clicks). */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
 }

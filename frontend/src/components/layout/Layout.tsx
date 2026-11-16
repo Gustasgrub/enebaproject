@@ -23,7 +23,12 @@ export function Layout() {
 
       <header className="bg-page">
         <div className="mx-auto flex max-w-[1200px] flex-wrap items-center gap-x-8 gap-y-3 px-4 py-4 md:flex-nowrap">
-          <Link to="/" className="text-3xl font-extrabold tracking-tight">
+          <Link to="/" className="flex items-center gap-2 text-3xl font-extrabold tracking-tight" aria-label="anabe home">
+            {/* Our own mark: two overlapping discs in the accent colours (not Eneba's logo). */}
+            <svg aria-hidden="true" viewBox="0 0 32 32" className="size-8">
+              <circle cx="13" cy="16" r="11" className="fill-accent" />
+              <circle cx="21" cy="16" r="9" className="fill-mint opacity-90" />
+            </svg>
             anabe
           </Link>
           <div className="order-last w-full md:order-none md:max-w-[560px] md:flex-1">
