@@ -70,3 +70,21 @@ export type BannerItem = {
   /** A path inside this frontend, e.g. /product/elden-ring-steam-global. */
   link_url: string
 }
+
+/** One seller's offer (OfferResource). `product` is included only by GET /api/offers (the cart). */
+export type Offer = {
+  id: number
+  price_cents: number
+  original_price_cents: number | null
+  discount_percent: number | null
+  /** Available keys right now. */
+  stock: number
+  seller: { name: string; rating: number }
+  product?: { slug: string; name: string; image_url: string; platform: Platform; region: Region }
+}
+
+/** GET /api/products/{slug}. Offers in stock come first, cheapest first. */
+export type ProductDetail = Omit<ProductSummary, 'price_cents' | 'original_price_cents' | 'discount_percent'> & {
+  description: string
+  offers: Offer[]
+}

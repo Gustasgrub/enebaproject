@@ -1,4 +1,5 @@
 import { Link, NavLink, Outlet, ScrollRestoration, useLocation, useSearchParams } from 'react-router'
+import { useCartLines } from '../../cart/cartStore'
 import { ServerWakeUpNotice } from '../ServerWakeUpNotice'
 import { SearchBar } from './SearchBar'
 
@@ -24,6 +25,9 @@ export function Layout() {
           <div className="order-last w-full md:order-none md:max-w-[560px] md:flex-1">
             <SearchBar key={searchText} initialText={searchText} />
           </div>
+          <nav aria-label="Account" className="ml-auto flex items-center gap-5 text-sm font-semibold">
+            <CartLink />
+          </nav>
         </div>
 
         <nav aria-label="Categories" className="bg-nav">
@@ -50,5 +54,24 @@ export function Layout() {
 
       <ScrollRestoration />
     </div>
+  )
+}
+
+function CartLink() {
+  const itemCount = useCartLines().reduce((sum, line) => sum + line.quantity, 0)
+
+  return (
+    <Link to="/cart" className="relative flex items-center gap-2 hover:text-accent" aria-label={`Cart, ${itemCount} items`}>
+      <svg aria-hidden="true" viewBox="0 0 24 24" className="size-6 fill-none stroke-current stroke-2">
+        <path d="M3 4h2l2.4 11.2a1 1 0 0 0 1 .8h9.2a1 1 0 0 0 1-.8L20 8H6" />
+        <circle cx="9" cy="20" r="1.4" />
+        <circle cx="17" cy="20" r="1.4" />
+      </svg>
+      {itemCount > 0 && (
+        <span className="absolute -top-2 -right-3 grid size-5 place-items-center rounded-full bg-accent text-xs font-extrabold text-card">
+          {itemCount}
+        </span>
+      )}
+    </Link>
   )
 }
