@@ -1,8 +1,10 @@
 import { HealthStatus } from './components/HealthStatus'
+import { ServerWakeUpNotice } from './components/ServerWakeUpNotice'
 
 export function App() {
   return (
     <div className="flex min-h-screen flex-col">
+      <ServerWakeUpNotice />
       <header className="px-4 py-4">
         <span className="text-3xl font-extrabold tracking-tight">anabe</span>
       </header>

@@ -141,3 +141,39 @@ describe the intended design; they are updated if the implementation ends up dif
 - **Reason:** the parts most worth testing are Postgres features: trigram search (`pg_trgm`) and
   row locking (`FOR UPDATE SKIP LOCKED`). On SQLite those tests would either not run or pass while
   production fails.
+
+### 14. Config and route caches are built when the container starts, not in the image
+
+- **Decision:** `backend/docker/start.sh` runs `config:cache` and `route:cache` on every container start,
+  before migrations and before FrankenPHP starts.
+- **Alternatives:** cache them in the Dockerfile; do not cache at all.
+- **Reason:** in classic mode Laravel boots on every request, and a cached config is one file instead of
+  every file in `config/`. The cached config captures environment variables (`APP_KEY`, `DB_URL`, …),
+  which Render only provides when the container runs, so caching during the image build would bake
+  in empty values.
+
+### 15. Laravel trusts `X-Forwarded-*` headers from any address
+
+- **Decision:** `bootstrap/app.php` calls `trustProxies(at: '*')`.
+- **Alternatives:** list Render's proxy IP ranges; trust no proxy.
+- **Reason:** Render ends HTTPS at its own proxy and forwards plain HTTP to the container, so without
+  this Laravel thinks every request is `http` and comes from the proxy's IP. That breaks generated
+  `https` URLs and any limit per client IP. Trusting every address is safe here because the container
+  cannot be reached except through Render's proxy, so every request that arrives has passed through it.
+
+### 16. FrankenPHP runs a fixed 4 PHP threads
+
+- **Decision:** `num_threads 4` in `backend/docker/Caddyfile`.
+- **Alternatives:** FrankenPHP's default of 2 threads per CPU.
+- **Reason:** the default depends on how many CPUs the container sees, and on shared hardware that is
+  the host's count, not the 0.1 CPU the free plan grants: a local test run reported 32 CPUs, which
+  would mean 64 threads. Four threads still serve the homepage's block requests in parallel, and four
+  requests at PHP's 128 MB memory limit stay within the free instance's 512 MB.
+
+### 17. The production database accepts no connections from the internet
+
+- **Decision:** `ipAllowList: []` on `anabe-db` in `render.yaml`.
+- **Alternatives:** Render's default for new databases, which allows every IP (still password-protected).
+- **Reason:** only the API needs the database, and it connects over Render's private network.
+  Production seeds itself from inside the container (#11), so no developer machine needs access
+  either. Closing the port removes the database from the internet entirely.

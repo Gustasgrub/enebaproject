@@ -33,4 +33,15 @@ class HealthCheckTest extends TestCase
         // blocks any page whose origin differs. So the check is that it never echoes the caller.
         $this->assertNotSame('https://evil.example', $response->headers->get('Access-Control-Allow-Origin'));
     }
+
+    public function test_preflight_answers_can_be_cached_by_the_browser(): void
+    {
+        $response = $this->call('OPTIONS', '/api/health', server: [
+            'HTTP_ORIGIN' => config('cors.allowed_origins')[0],
+            'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'GET',
+        ]);
+
+        $response->assertNoContent()
+            ->assertHeader('Access-Control-Max-Age', '7200');
+    }
 }

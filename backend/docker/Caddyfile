@@ -1,0 +1,23 @@
+# FrankenPHP configuration for the production container (backend/Dockerfile).
+{
+	frankenphp {
+		# Classic mode: there is no `worker` directive, so every request boots Laravel fresh and
+		# nothing is shared between requests (docs/DECISIONS.md #3).
+		# A fixed number of PHP threads serves requests in parallel. The default (2 per CPU the
+		# container can see) is unpredictable on shared hardware, and the free instance has
+		# only 512 MB of memory (docs/DECISIONS.md #16).
+		num_threads 4
+	}
+
+	# Caddy's admin API is not used; turning it off closes its port.
+	admin off
+}
+
+# Plain HTTP on the port Render assigns in $PORT: Render terminates HTTPS in front of the container.
+http://:{$PORT:8080} {
+	root public/
+	encode zstd br gzip
+
+	# Serves files that exist in public/ and sends every other request to public/index.php.
+	php_server
+}

@@ -1,0 +1,22 @@
+# Keeps local state and secrets out of the image. Render builds from a fresh git clone, where these
+# files do not exist; this matters for local `docker build` runs.
+
+# Local secrets (APP_KEY) and settings. Production gets its environment from render.yaml.
+.env
+.env.*
+
+# Installed inside the image instead, without dev packages.
+vendor/
+node_modules/
+
+# Local caches. packages.php lists dev packages that the image does not have, so copying it in would
+# break the app on boot; the build regenerates it.
+bootstrap/cache/*.php
+storage/logs/*.log
+storage/framework/cache/data/
+
+# Tests do not run in the production image.
+tests/
+phpunit.xml
+.phpunit.result.cache
+.phpunit.cache/

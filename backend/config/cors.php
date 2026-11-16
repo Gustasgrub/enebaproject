@@ -29,7 +29,10 @@ return [
 
     'exposed_headers' => [],
 
-    'max_age' => 0,
+    // How long a browser may reuse a preflight (OPTIONS) answer, in seconds. Requests with an
+    // Authorization header or a JSON body need a preflight; caching it saves a round trip to the
+    // free-tier server on each such request. Chrome caps the value at 2 hours.
+    'max_age' => 7200,
 
     'supports_credentials' => false,
 

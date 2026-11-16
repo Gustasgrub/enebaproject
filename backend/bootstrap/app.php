@@ -13,7 +13,11 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // On Render, HTTPS ends at Render's proxy, which forwards plain HTTP to the container and
+        // describes the original request in X-Forwarded-* headers. Trusting them lets Laravel see the
+        // real scheme (https) and client IP. Safe because the container is reachable only through
+        // that proxy (docs/DECISIONS.md #15).
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

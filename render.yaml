@@ -1,0 +1,86 @@
+# Render Blueprint: the whole production setup in one file (PLAN.md, Section 10).
+# Everything is on the free plan. It is deployed as a Blueprint in the Render workspace "anabe".
+# All paths below are relative to the repository root.
+
+databases:
+  - name: anabe-db
+    plan: free
+    region: frankfurt
+    postgresMajorVersion: "17" # same major version as the local database (docker-compose.yml)
+    databaseName: anabe
+    user: anabe
+    # An empty list blocks every connection from the internet. Only the API connects to the
+    # database, over Render's private network (docs/DECISIONS.md #17).
+    ipAllowList: []
+
+services:
+  # Backend: the Laravel API in a Docker container running FrankenPHP (backend/Dockerfile).
+  - type: web
+    name: anabe-api
+    runtime: docker
+    plan: free
+    region: frankfurt # the database's region: services in one region share a private network
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /api/health
+    autoDeployTrigger: commit
+    buildFilter:
+      paths:
+        - backend/**
+    envVars:
+      # The only secret. sync: false means Render asks for the value when the Blueprint is first
+      # created; it is entered in the dashboard and never committed.
+      - key: APP_KEY
+        sync: false
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_URL
+        value: https://anabe-api.onrender.com
+      # The only origin CORS allows (config/cors.php): the static site below.
+      - key: FRONTEND_URL
+        value: https://anabe-web.onrender.com
+      # Render generates the database credentials and injects them here as one connection string
+      # (postgresql://user:password@host/database), so nobody copies them by hand.
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_URL
+        fromDatabase:
+          name: anabe-db
+          property: connectionString
+      # The container's disk is temporary, so logs go to stderr, where Render collects them.
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: LOG_LEVEL
+        value: info
+      # Same as local development (backend/.env.example): no sessions, file cache, no queue worker.
+      - key: SESSION_DRIVER
+        value: array
+      - key: CACHE_STORE
+        value: file
+      - key: QUEUE_CONNECTION
+        value: sync
+
+  # Frontend: the React app, built once and served as static files from Render's CDN.
+  - type: web
+    name: anabe-web
+    runtime: static
+    buildCommand: cd frontend && npm ci && npm run build
+    staticPublishPath: ./frontend/dist
+    autoDeployTrigger: commit
+    buildFilter:
+      paths:
+        - frontend/**
+    # Any path that is not a real file serves index.html, so deep links such as /store survive a
+    # page reload; React Router then renders the right page. Real files (JS, CSS) take precedence.
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: NODE_VERSION
+        value: "24"
+      # Inlined into the JavaScript bundle at build time, so changing it needs a rebuild.
+      - key: VITE_API_URL
+        value: https://anabe-api.onrender.com

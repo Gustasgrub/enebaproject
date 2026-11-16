@@ -63,3 +63,23 @@ cd backend && php artisan test        # PHPUnit, against the anabe_test Postgres
 cd frontend && npm test               # Vitest + React Testing Library
 cd frontend && npm run typecheck      # strict TypeScript
 ```
+
+## Deployment
+
+Production runs on Render's free plan in Frankfurt. All of it is defined in [render.yaml](render.yaml):
+
+| Resource    | Type                 | What it is |
+|-------------|----------------------|------------|
+| `anabe-web` | Static site          | The React app, built from `frontend/` and served from Render's CDN |
+| `anabe-api` | Docker web service   | The Laravel API, built from `backend/Dockerfile` and served by FrankenPHP. On start it caches config, runs migrations, then serves requests |
+| `anabe-db`  | Render Postgres 17   | Reachable only from Render's private network |
+
+Every push to `main` redeploys whichever of the two apps changed.
+
+The free web service sleeps after 15 minutes without traffic, so the first request after that takes
+30–60 seconds; the frontend shows "Waking up the server…" while it waits.
+
+**First-time setup** (once, in the Render dashboard): in the `anabe` workspace choose
+New → Blueprint, pick this repository and apply. Render asks for the one secret, `APP_KEY`.
+Generate it locally with `php artisan key:generate --show`, copy it into the dashboard, and do not
+keep it anywhere else.
