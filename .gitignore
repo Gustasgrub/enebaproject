@@ -1,0 +1,19 @@
+# Repo-wide rules. backend/ and frontend/ also have their framework's own .gitignore.
+
+# Local environment files hold secrets (APP_KEY) and machine-specific settings.
+# Only the .env.example templates are committed.
+.env
+.env.*
+!.env.example
+
+# Raw Claude Code transcripts contain personal data (email, name, account IDs). They are committed
+# only as Markdown, after scrubbing and review (PLAN.md, Phase 10).
+ai-logs/*.jsonl
+
+# Screenshots of eneba.com: reference material containing Eneba's and publishers' artwork.
+design-reference/
+
+# Dependencies and build output
+node_modules/
+vendor/
+dist/

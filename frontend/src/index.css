@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens: the only place design values live (PLAN.md, Section 9).
+ * Colours are sampled from the eneba.com screenshots in design-reference/.
+ * Every --color-* token becomes Tailwind utilities, e.g. --color-card → bg-card, text-card, border-card.
+ */
+@theme {
+  /* Purples */
+  --color-page: #4618ac; /* page and header background */
+  --color-nav: #341281; /* secondary nav bar, footer */
+  --color-panel: #5825cc; /* filter panels */
+  --color-field: #461ea3; /* inputs inside filter panels */
+  --color-chip: #2c0e6c; /* active-filter chips */
+  --color-card: #1f0a4d; /* product card body */
+
+  /* Accents */
+  --color-accent: #fad318; /* yellow: checkboxes, count badges, primary buttons, "Clear all" */
+  --color-mint: #63e3c2; /* highlighted card border, badges */
+  --color-region: #22c299; /* region label on product cards ("GLOBAL") */
+  --color-discount: #84e923; /* discount percentage */
+
+  /* Montserrat: free geometric sans closest to the reference's typeface (loaded in index.html) */
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-page font-sans text-white antialiased;
+  }
+}
