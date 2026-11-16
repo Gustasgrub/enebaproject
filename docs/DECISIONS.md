@@ -271,3 +271,15 @@ describe the intended design; they are updated if the implementation ends up dif
   token expires within a week, and login rejects unknown emails and wrong passwords with the same
   message. With both apps under one domain (e.g. `shop.example` and `api.shop.example`), cookie sessions
   would become the better choice.
+
+### 25. The cart lives in the browser and holds only offer ids and quantities
+
+- **Decision:** the cart is kept in `localStorage` as `[{offerId, quantity}]`. The cart and checkout
+  pages fetch current prices and stock from `GET /api/offers?ids[]=`, and `POST /api/checkout` reads
+  prices from the database again. It answers 409 naming the item when stock ran out (nothing reserved or
+  charged) and 402 when the card is declined (the order is kept as failed, its keys go back on sale).
+- **Alternatives:** a server-side cart table; storing prices and names in the browser's cart.
+- **Reason:** a server cart needs a login (or anonymous cart sessions) before the first "Add to cart",
+  and merging carts at login. A browser cart works for visitors right away and survives reloads. Saving
+  prices in the browser would show stale or tampered prices; storing only ids makes the server the
+  single source of truth, and the client is never trusted with an amount.

@@ -88,3 +88,25 @@ export type ProductDetail = Omit<ProductSummary, 'price_cents' | 'original_price
   description: string
   offers: Offer[]
 }
+
+export type OrderStatus = 'pending' | 'paid' | 'failed'
+
+export type OrderItem = {
+  id: number
+  quantity: number
+  unit_price_cents: number
+  seller: string
+  product: { slug: string; name: string; platform: Platform; region: Region; image_url: string }
+  /** The key codes: present only for paid orders. */
+  keys: string[]
+}
+
+/** GET /api/orders, GET /api/orders/{id}, POST /api/checkout */
+export type Order = {
+  id: number
+  status: OrderStatus
+  total_cents: number
+  payment_reference: string | null
+  created_at: string
+  items: OrderItem[]
+}

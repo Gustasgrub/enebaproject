@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\FilterOptionsController;
 use App\Http\Controllers\HealthController;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\OfferController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SearchSuggestionController;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +28,11 @@ Route::middleware('throttle:10,1')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [AuthController::class, 'me']);
+
+    // Checkout and order history
+    Route::post('/checkout', CheckoutController::class);
+    Route::get('/orders', [OrderController::class, 'index']);
+    Route::get('/orders/{order}', [OrderController::class, 'show']);
 });
 
 // Homepage: the layout, then each block's data in its own request

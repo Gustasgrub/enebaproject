@@ -11,6 +11,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable(['user_id', 'status', 'total_cents', 'payment_reference'])]
 class Order extends Model
 {
+    /** Everything OrderResource shows, eager-loaded in a fixed number of queries. */
+    public const DETAIL_RELATIONS = ['items.offer.product', 'items.offer.seller', 'items.keys'];
+
+    public function loadDetails(): static
+    {
+        return $this->load(self::DETAIL_RELATIONS);
+    }
+
     protected function casts(): array
     {
         return [
