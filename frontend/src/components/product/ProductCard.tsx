@@ -3,18 +3,27 @@ import type { ProductSummary } from '../../api/types'
 import { formatPrice } from '../../lib/money'
 import { productTitle } from '../../lib/productTitle'
 
-// A product card: cover with the platform strip, title, region and price. Vertical in grids from the
-// small breakpoint up; a horizontal list item (image left, details right) on phones.
-export function ProductCard({ product }: { product: ProductSummary }) {
+type ProductCardProps = {
+  product: ProductSummary
+  /**
+   * responsive: a horizontal list item (image left, details right) on phones, vertical from the small
+   * breakpoint up, as in the store grid. vertical: always vertical, as in the homepage's scrolling rows.
+   */
+  layout?: 'responsive' | 'vertical'
+}
+
+// A product card: cover with the platform strip, title, region and price.
+export function ProductCard({ product, layout = 'responsive' }: ProductCardProps) {
+  const isVertical = layout === 'vertical'
   // Only a real discount shows the struck-through original price.
   const dealOriginalPrice = product.discount_percent !== null ? product.original_price_cents : null
 
   return (
     <Link
       to={`/product/${product.slug}`}
-      className="flex bg-card outline-offset-2 transition hover:ring-2 hover:ring-mint sm:flex-col"
+      className={`flex w-full bg-card outline-offset-2 transition hover:ring-2 hover:ring-mint ${isVertical ? 'flex-col' : 'sm:flex-col'}`}
     >
-      <div className="relative aspect-[3/4] w-28 shrink-0 sm:w-full">
+      <div className={`relative aspect-[3/4] shrink-0 ${isVertical ? 'w-full' : 'w-28 sm:w-full'}`}>
         <img src={product.image_url} alt="" loading="lazy" className="h-full w-full object-cover" />
         <span className="absolute inset-x-0 bottom-0 bg-black/60 py-1 text-center text-xs font-semibold">
           {product.platform}

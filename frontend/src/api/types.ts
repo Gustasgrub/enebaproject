@@ -52,3 +52,21 @@ export type FilterOptionsResponse = {
     genres: FilterOption[]
   }
 }
+
+/** GET /api/homepage: one entry per enabled block, in display order. */
+export type HomepageBlockSummary = {
+  id: number
+  /** Decides which component renders the block; unknown types are skipped. */
+  type: string
+  title: string
+}
+
+/** An item of the `banner` block (GET /api/homepage/blocks/{id}). */
+export type BannerItem = {
+  id: number
+  title: string
+  subtitle: string
+  image_url: string
+  /** A path inside this frontend, e.g. /product/elden-ring-steam-global. */
+  link_url: string
+}

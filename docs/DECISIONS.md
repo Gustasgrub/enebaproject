@@ -243,3 +243,15 @@ describe the intended design; they are updated if the implementation ends up dif
   stock-drift problem the data model avoids (stock = available keys). Computing it in PHP cannot filter
   or sort in SQL and would need every offer of every product. The lateral join keeps one query per page,
   and the existing `(offer_id, status)` index serves its stock check.
+
+### 23. How a homepage block fails, and how long its data is cached
+
+- **Decision:** a block whose request fails shows a small "could not be loaded" note with a retry
+  button, except the hero banner, which hides (a broken hero looks worse than none). A block that crashes
+  while rendering is caught by its own error boundary. Each block's data is cached for 60 seconds under
+  a key that includes the block's `updated_at`.
+- **Alternatives:** hide every failed block; cache for minutes or hours; clear the cache on every sale.
+- **Reason:** a visible note tells the visitor something is missing and offers a retry without
+  reloading the page. Sixty seconds absorbs repeated visits while keeping prices and stock close to
+  live; checkout re-reads both from the database anyway, so a slightly stale card can never sell at a
+  wrong price. Keying on `updated_at` makes a config change show up immediately.
