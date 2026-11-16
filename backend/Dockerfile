@@ -28,6 +28,10 @@ RUN composer dump-autoload --no-dev --optimize --no-interaction
 # Run as an unprivileged user. Laravel writes to storage/ and bootstrap/cache/, and Caddy keeps its
 # state in /config and /data (set by the base image as XDG_CONFIG_HOME and XDG_DATA_HOME).
 RUN chown -R www-data:www-data storage bootstrap/cache /config /data
+# The base image gives the frankenphp binary a capability for binding ports below 1024. The server
+# listens on Render's high port, so it is not needed, and Render does not grant it: Linux then refuses
+# to start the binary at all ("Operation not permitted"). Removing it lets it run with no capabilities.
+RUN setcap -r /usr/local/bin/frankenphp
 USER www-data
 
 CMD ["sh", "docker/start.sh"]
