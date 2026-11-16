@@ -1,4 +1,8 @@
 import { Link, NavLink, Outlet, ScrollRestoration, useLocation, useSearchParams } from 'react-router'
+import { useQueryClient } from '@tanstack/react-query'
+import { apiPost } from '../../api/client'
+import { loginPathFor } from '../../auth/redirect'
+import { endSession, useSession } from '../../auth/session'
 import { useCartLines } from '../../cart/cartStore'
 import { ServerWakeUpNotice } from '../ServerWakeUpNotice'
 import { SearchBar } from './SearchBar'
@@ -27,6 +31,7 @@ export function Layout() {
           </div>
           <nav aria-label="Account" className="ml-auto flex items-center gap-5 text-sm font-semibold">
             <CartLink />
+            <AccountLinks />
           </nav>
         </div>
 
@@ -54,6 +59,49 @@ export function Layout() {
 
       <ScrollRestoration />
     </div>
+  )
+}
+
+function AccountLinks() {
+  const session = useSession()
+  const queryClient = useQueryClient()
+  const location = useLocation()
+
+  if (session === null) {
+    const loginPath = loginPathFor(location.pathname + location.search)
+    return (
+      <span>
+        <Link to={loginPath} className="hover:text-accent">
+          Log in
+        </Link>
+        <span className="mx-1.5 text-white/60">|</span>
+        <Link to={`/register${loginPath.slice('/login'.length)}`} className="hover:text-accent">
+          Register
+        </Link>
+      </span>
+    )
+  }
+
+  async function logOut() {
+    try {
+      await apiPost('/api/logout')
+    } finally {
+      // Logged out locally even if the server could not be reached; its token expires on its own.
+      endSession()
+      queryClient.removeQueries({ queryKey: ['orders'] })
+    }
+  }
+
+  return (
+    <span className="flex items-center gap-4">
+      <Link to="/orders" className="hover:text-accent">
+        My orders
+      </Link>
+      <span className="hidden text-white/70 sm:inline">{session.user.name}</span>
+      <button type="button" className="hover:text-accent" onClick={() => void logOut()}>
+        Log out
+      </button>
+    </span>
   )
 }
 

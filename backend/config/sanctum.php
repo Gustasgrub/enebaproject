@@ -50,7 +50,9 @@ return [
     |
     */
 
-    'expiration' => null,
+    // Minutes. The frontend keeps the token in localStorage (docs/DECISIONS.md #24), so a token that leaks
+    // should stop working on its own: after 7 days the user simply logs in again.
+    'expiration' => 60 * 24 * 7,
 
     /*
     |--------------------------------------------------------------------------

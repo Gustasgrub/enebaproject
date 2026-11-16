@@ -15,5 +15,8 @@ php artisan migrate --force
 # Seed the demo catalog on the first start, when the database is still empty; later starts skip it.
 php artisan catalog:seed-if-empty
 
+# Make sure the public demo account exists (does nothing when it already does).
+php artisan db:seed --class=DemoAccountSeeder --force
+
 # exec replaces this shell with FrankenPHP, so Render's stop signal reaches the server directly.
 exec frankenphp run --config docker/Caddyfile

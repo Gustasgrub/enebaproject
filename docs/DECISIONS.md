@@ -255,3 +255,19 @@ describe the intended design; they are updated if the implementation ends up dif
   reloading the page. Sixty seconds absorbs repeated visits while keeping prices and stock close to
   live; checkout re-reads both from the database anyway, so a slightly stale card can never sell at a
   wrong price. Keying on `updated_at` makes a config change show up immediately.
+
+### 24. Auth uses Sanctum bearer tokens kept in localStorage
+
+- **Decision:** login and registration return a Sanctum API token; the frontend keeps it in
+  `localStorage` and sends it as `Authorization: Bearer …`. Tokens expire after 7 days, logout revokes
+  the token of that browser, and login/registration are rate-limited to 10 attempts a minute per IP.
+- **Alternatives:** Sanctum's cookie-based SPA sessions (an HttpOnly cookie that scripts cannot read).
+- **Reason:** the frontend (`anabe-web.onrender.com`) and the API (`anabe-api.onrender.com`) are
+  different sites, because `onrender.com` is a public suffix. A session cookie sent from one to the
+  other is a third-party cookie, which browsers increasingly block, so login would break for some
+  visitors. A bearer token works everywhere.
+- **Cost:** any script running on the page can read `localStorage`, so an XSS bug would expose the
+  token. The mitigations: React escapes all rendered text, the app renders no user-provided HTML, the
+  token expires within a week, and login rejects unknown emails and wrong passwords with the same
+  message. With both apps under one domain (e.g. `shop.example` and `api.shop.example`), cookie sessions
+  would become the better choice.

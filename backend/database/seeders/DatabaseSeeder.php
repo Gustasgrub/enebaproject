@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
                 OrderHistorySeeder::class,
                 BannerSeeder::class,
                 HomepageBlockSeeder::class,
+                DemoAccountSeeder::class,
             ]);
         });
     }
