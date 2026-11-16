@@ -1,6 +1,6 @@
 # Phase one continuation
 
-Claude Code session `1566fea1-279a-4143-b210-c638759f799d`, 2026-11-16 21:15 to 2026-11-16 22:49 UTC.
+Claude Code session `1566fea1-279a-4143-b210-c638759f799d`, 2026-11-16 21:15 to 2026-11-16 22:55 UTC.
 
 > Exported with `scripts/export-chat-logs.mjs`: prompts and replies are complete; tool calls and results are
 > collapsed and shortened to 3000 characters; internal reasoning is left out; personal data and
@@ -29,7 +29,7 @@ I'll start by looking at the project to find the Phase 1 plan.
 
 ```
 commit 872ff9ab861584ef8e8972f2d5fb4839597e1c2b
-Author: <name>grub <<email>>
+Author: Gustasgrub <<email>>
 Date:   Mon Nov 16 23:12:07 2026 +0200
 
     Phase 0: project setup
@@ -443,9 +443,9 @@ homepage-desktop.png
 homepage-mobile.png
 store-desktop.png
 .gitignore:11:ai-logs/*.jsonl	ai-logs/session-01-planning-and-phase-0.jsonl
-origin	https://github.com/<name>grub/enebaproject.git (fetch)
-origin	https://github.com/<name>grub/enebaproject.git (push)
-{"name":"enebaproject","url":"https://github.com/<name>grub/enebaproject","visibility":"PUBLIC"}
+origin	https://github.com/Gustasgrub/enebaproject.git (fetch)
+origin	https://github.com/Gustasgrub/enebaproject.git (push)
+{"name":"enebaproject","url":"https://github.com/Gustasgrub/enebaproject","visibility":"PUBLIC"}
 /c/Program Files/Docker/Docker/resources/bin/docker
 /c/Users/<user>/AppData/Local/Microsoft/WinGet/Packages/Render.CLI_Microsoft.Winget.Source_8wekyb3d8bbwe/render
 Docker version 29.2.1, build a5c7197
@@ -489,7 +489,7 @@ You are using the latest version
 {
   "email": "<email>",
   "id": "<render-id>",
-  "name": "<name> <name>"
+  "name": "<name>"
 }
 ```
 
@@ -2034,7 +2034,7 @@ Phase 1 is committed and pushed to `main` as `3aa592c`. Nothing is deployed yet:
 
 **Your step (about 2 minutes):**
 1. Generate an app key in a normal terminal, not in this chat, because the chat log gets published: `cd C:\dev\enebaproject\backend; php artisan key:generate --show | clip`. That puts the key on your clipboard without printing it.
-2. In the Render dashboard, switch to the **anabe** workspace, then choose **New → Blueprint** and pick the `<name>grub/enebaproject` repo on branch `main`.
+2. In the Render dashboard, switch to the **anabe** workspace, then choose **New → Blueprint** and pick the `Gustasgrub/enebaproject` repo on branch `main`.
 3. Render shows the three resources (`anabe-db`, `anabe-api`, `anabe-web`) and asks for `APP_KEY`. Paste the key, then click **Apply**.
 
 A background watcher is checking the `anabe` workspace and will notify me when both services finish their first deploy. I'll then confirm the live site shows data from the live API and Render Postgres.
@@ -2871,26 +2871,26 @@ A stray `cat` line in that command is waiting on input. I'll stop it and recreat
 ```
 app/Catalog:
 total 0
-drwxr-xr-x 1 grubl 197609 0 Nov 16 23:42 .
-drwxr-xr-x 1 grubl 197609 0 Nov 16 23:42 ..
+drwxr-xr-x 1 <user> 197609 0 Nov 16 23:42 .
+drwxr-xr-x 1 <user> 197609 0 Nov 16 23:42 ..
 
 app/Enums:
 total 1
-drwxr-xr-x 1 grubl 197609   0 Nov 16 23:42 .
-drwxr-xr-x 1 grubl 197609   0 Nov 16 23:42 ..
--rw-r--r-- 1 grubl 197609 290 Nov 16 23:42 Platform.php
--rw-r--r-- 1 grubl 197609   0 Nov 16 23:42 Region::php
+drwxr-xr-x 1 <user> 197609   0 Nov 16 23:42 .
+drwxr-xr-x 1 <user> 197609   0 Nov 16 23:42 ..
+-rw-r--r-- 1 <user> 197609 290 Nov 16 23:42 Platform.php
+-rw-r--r-- 1 <user> 197609   0 Nov 16 23:42 Region::php
 
 app/Search:
 total 4
-drwxr-xr-x 1 grubl 197609   0 Nov 16 23:44 .
-drwxr-xr-x 1 grubl 197609   0 Nov 16 23:42 ..
--rw-r--r-- 1 grubl 197609 858 Nov 16 23:44 SearchNormalizer.php
+drwxr-xr-x 1 <user> 197609   0 Nov 16 23:44 .
+drwxr-xr-x 1 <user> 197609   0 Nov 16 23:42 ..
+-rw-r--r-- 1 <user> 197609 858 Nov 16 23:44 SearchNormalizer.php
 
 database/seeders/data:
 total 0
-drwxr-xr-x 1 grubl 197609 0 Nov 16 23:42 .
-drwxr-xr-x 1 grubl 197609 0 Nov 16 23:42 ..
+drwxr-xr-x 1 <user> 197609 0 Nov 16 23:42 .
+drwxr-xr-x 1 <user> 197609 0 Nov 16 23:42 ..
 ```
 
 </details>
@@ -4096,7 +4096,7 @@ Chrome is installed, so I'll render a contact sheet of covers and a banner headl
 
 ```
 nierautomata.svg
--rw-r--r-- 1 grubl 197609 282671 Nov 16 23:53 C:/Users/<user>/AppData/Local/Temp/claude/3e0d374ef3fade4d/1566fea1-279a-4143-b210-c638759f799d/scratchpad/art.png
+-rw-r--r-- 1 <user> 197609 282671 Nov 16 23:53 C:/Users/<user>/AppData/Local/Temp/claude/3e0d374ef3fade4d/1566fea1-279a-4143-b210-c638759f799d/scratchpad/art.png
 ```
 
 </details>
@@ -9524,11 +9524,11 @@ The file c:\dev\enebaproject\backend\app\Providers\AppServiceProvider.php has be
 <details><summary>Tool result</summary>
 
 ```
-drwxr-xr-x 1 grubl 197609 0 Nov 10 18:24 c--Users-<user>-OneDrive-Desktop-eneba
-drwxr-xr-x 1 grubl 197609 0 Nov 16 22:18 c--Users-<user>-OneDrive-Desktop-enebaproject
-drwxr-xr-x 1 grubl 197609 0 Nov  9 21:41 c--Users-<user>-OneDrive-Desktop-siusklt
-drwxr-xr-x 1 grubl 197609 0 Nov 12 01:20 c--Users-<user>-OneDrive-Desktop-tinklai
-drwxr-xr-x 1 grubl 197609 0 Nov 16 23:15 c--dev-enebaproject
+drwxr-xr-x 1 <user> 197609 0 Nov 10 18:24 c--Users-<user>-OneDrive-Desktop-eneba
+drwxr-xr-x 1 <user> 197609 0 Nov 16 22:18 c--Users-<user>-OneDrive-Desktop-enebaproject
+drwxr-xr-x 1 <user> 197609 0 Nov  9 21:41 c--Users-<user>-OneDrive-Desktop-siusklt
+drwxr-xr-x 1 <user> 197609 0 Nov 12 01:20 c--Users-<user>-OneDrive-Desktop-tinklai
+drwxr-xr-x 1 <user> 197609 0 Nov 16 23:15 c--dev-enebaproject
 == /c/Users/<user>/.claude/projects/c--Users-<user>-OneDrive-Desktop-enebaproject
 5273925 e1e11cfb-9cc2-490d-bc7c-d463e715a2db.jsonl
 == /c/Users/<user>/.claude/projects/c--dev-enebaproject
@@ -9753,7 +9753,7 @@ drwxr-xr-x 1 grubl 197609 0 Nov 16 23:15 c--dev-enebaproject
 ```json
 {
   "file_path": "c:\\dev\\enebaproject\\scripts\\export-chat-logs.mjs",
-  "content": "// Converts the Claude Code transcripts of this project (JSONL) into readable Markdown for ai-logs/,\n// scrubbing personal data and anything that looks like a secret. The assignment asks for the full agent\n// chat history; review the output before committing it.\n//\n// Usage (from the repository root):\n//   node scripts/export-chat-logs.mjs                 # the project's two transcript folders\n//   node scripts/export-chat-logs.mjs <folder> ...    # other transcript folders\n//\n// Kept: every user prompt and every assistant reply in full; tool calls and their results as collapsed\n// blocks, shortened (the code they wrote is in the repository). Left out: internal reasoning, harness\n// reminders, sub-agent side chains and bookkeeping records.\n\nimport { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'\nimport { homedir } from 'node:os'\nimport { basename, join } from 'node:path'\n\nconst TOOL_TEXT_LIMIT = 3000\nconst outputDir = join(process.cwd(), 'ai-logs')\nconst projectsDir = join(homedir(), '.claude', 'projects')\nconst defaultFolders = ['c--Users-<user>-OneDrive-Desktop-enebaproject', 'c--dev-enebaproject'].map((name) => join(projectsDir, name))\n\nconst folders = process.argv.length > 2 ? process.argv.slice(2) : defaultFolders\n\n// --- Scrubbing ----------------------------------------------------------------------------------\n\nconst homeName = basename(homedir()) // the Windows user name, part of every local path\nconst replacements = [\n  // Secrets first, so nothing below can split them.\n  [/base64:[A-Za-z0-9+/]{40,}={0,2}/g, 'base64:<redacted-key>'],\n  [/\\b\\d+\\|[A-Za-z0-9]{40}\\b/g, '<redacted-api-token>'],\n  [/\\bsk-[A-Za-z0-9_-]{20,}/g, '<redacted-secret>'],\n  [/\\bgh[pousr]_[A-Za-z0-9]{30,}/g, '<redacted-github-token>'],\n  [/\\b(?:usr|tea|srv|dpg|evm|exs)-[a-z0-9]{20}(?:-a)?\\b/g, '<render-id>'],\n  // Email addresses, except the reserved example domains used for demo data and commit trailers.\n  [/[A-Za-z0-9._%+-]+@(?!example\\.(?:com|org)\\b|anthropic\\.com\\b)[A-Za-z0-9.-]+\\.[A-Za-z]{2,}/g, '<email>'],\n  // Personal names.\n  [/<name> <name>/gi, '<name>'],\n  [/<name>/gi, '<name>'],\n  // Home folder in its Windows, Git Bash and Claude-folder spellings.\n  [new RegExp(`([A-Za-z]:[\\\\\\\\/]+Users[\\\\\\\\/]+)${homeName}\\\\b`, 'gi'), '$1<user>'],\n  [new RegExp(`(/[a-z]/Users/)${homeName}\\\\b`, 'gi'), '$1<user>'],\n  [new RegExp(`(--Users-)${homeName}\\\\b`, 'gi'), '$1<user>'],\n]\n\nfunction scrub(text) {\n  return replacements.reduce((current, [pattern, replacement]) => current.replace(pattern, replacement), text)\n}\n\n// --- Conversion ---------------------------------------------------------------------------------\n\nfunction shorten(text) {\n  return text.length > TOOL_TEXT_LIMIT ? `${text.slice(0, TOOL_TEXT_LIMIT)}\\n… (${text.length - TOOL_TEXT_LIMIT} more characters)` : 
+  "content": "// Converts the Claude Code transcripts of this project (JSONL) into readable Markdown for ai-logs/,\n// scrubbing personal data and anything that looks like a secret. The assignment asks for the full agent\n// chat history; review the output before committing it.\n//\n// Usage (from the repository root):\n//   node scripts/export-chat-logs.mjs                 # the project's two transcript folders\n//   node scripts/export-chat-logs.mjs <folder> ...    # other transcript folders\n//\n// Kept: every user prompt and every assistant reply in full; tool calls and their results as collapsed\n// blocks, shortened (the code they wrote is in the repository). Left out: internal reasoning, harness\n// reminders, sub-agent side chains and bookkeeping records.\n\nimport { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'\nimport { homedir } from 'node:os'\nimport { basename, join } from 'node:path'\n\nconst TOOL_TEXT_LIMIT = 3000\nconst outputDir = join(process.cwd(), 'ai-logs')\nconst projectsDir = join(homedir(), '.claude', 'projects')\nconst defaultFolders = ['c--Users-<user>-OneDrive-Desktop-enebaproject', 'c--dev-enebaproject'].map((name) => join(projectsDir, name))\n\nconst folders = process.argv.length > 2 ? process.argv.slice(2) : defaultFolders\n\n// --- Scrubbing ----------------------------------------------------------------------------------\n\nconst homeName = basename(homedir()) // the Windows user name, part of every local path\nconst replacements = [\n  // Secrets first, so nothing below can split them.\n  [/base64:[A-Za-z0-9+/]{40,}={0,2}/g, 'base64:<redacted-key>'],\n  [/\\b\\d+\\|[A-Za-z0-9]{40}\\b/g, '<redacted-api-token>'],\n  [/\\bsk-[A-Za-z0-9_-]{20,}/g, '<redacted-secret>'],\n  [/\\bgh[pousr]_[A-Za-z0-9]{30,}/g, '<redacted-github-token>'],\n  [/\\b(?:usr|tea|srv|dpg|evm|exs)-[a-z0-9]{20}(?:-a)?\\b/g, '<render-id>'],\n  // Email addresses, except the reserved example domains used for demo data and commit trailers.\n  [/[A-Za-z0-9._%+-]+@(?!example\\.(?:com|org)\\b|anthropic\\.com\\b)[A-Za-z0-9.-]+\\.[A-Za-z]{2,}/g, '<email>'],\n  // Personal names.\n  [/<name>/gi, '<name>'],\n  [/<name>/gi, '<name>'],\n  // Home folder in its Windows, Git Bash and Claude-folder spellings.\n  [new RegExp(`([A-Za-z]:[\\\\\\\\/]+Users[\\\\\\\\/]+)${homeName}\\\\b`, 'gi'), '$1<user>'],\n  [new RegExp(`(/[a-z]/Users/)${homeName}\\\\b`, 'gi'), '$1<user>'],\n  [new RegExp(`(--Users-)${homeName}\\\\b`, 'gi'), '$1<user>'],\n]\n\nfunction scrub(text) {\n  return replacements.reduce((current, [pattern, replacement]) => current.replace(pattern, replacement), text)\n}\n\n// --- Conversion ---------------------------------------------------------------------------------\n\nfunction shorten(text) {\n  return text.length > TOOL_TEXT_LIMIT ? `${text.slice(0, TOOL_TEXT_LIMIT)}\\n… (${text.length - TOOL_TEXT_LIMIT} more characters)` : 
 … (4612 more characters)
 ```
 
@@ -9763,7 +9763,7 @@ drwxr-xr-x 1 grubl 197609 0 Nov 16 23:15 c--dev-enebaproject
 
 ```json
 {
-  "command": "cd /c/dev/enebaproject && node scripts/export-chat-logs.mjs && ls -la ai-logs/ && echo \"== leftover personal data check\" && grep -c -iE 'grubliausk|gmail|Users[\\\\/]+grubl|/c/Users/<user>|usr-dbq|tea-dbq' ai-logs/*.md; grep -o -iE '.{30}(grubliausk|gmail).{30}' ai-logs/*.md | head -5",
+  "command": "cd /c/dev/enebaproject && node scripts/export-chat-logs.mjs && ls -la ai-logs/ && echo \"== leftover personal data check\" && grep -c -iE '<name>|gmail|Users[\\\\/]+<user>|/c/Users/<user>|usr-dbq|tea-dbq' ai-logs/*.md; grep -o -iE '.{30}(<name>|gmail).{30}' ai-logs/*.md | head -5",
   "description": "Export chat logs and check for leftover personal data",
   "timeout": 120000
 }
@@ -9819,7 +9819,7 @@ Permission for this action was denied by the Claude Code auto mode classifier. R
 {
   "replace_all": false,
   "file_path": "c:\\dev\\enebaproject\\scripts\\export-chat-logs.mjs",
-  "old_string": "  // Personal names.\n  [/<name> <name>/gi, '<name>'],\n  [/<name>/gi, '<name>'],\n  // Home folder",
+  "old_string": "  // Personal names.\n  [/<name>/gi, '<name>'],\n  [/<name>/gi, '<name>'],\n  // Home folder",
   "new_string": "  // Personal names, from EXPORT_SCRUB_NAMES.\n  ...namesToScrub.map((name) => [new RegExp(escapeRegExp(name), 'gi'), '<name>']),\n  // Home folder"
 }
 ```
@@ -9830,7 +9830,7 @@ Permission for this action was denied by the Claude Code auto mode classifier. R
 
 ```json
 {
-  "command": "cd /c/dev/enebaproject && node --check scripts/export-chat-logs.mjs && echo syntax-ok && grep -n -iE 'grubl|<name>|gmail' scripts/export-chat-logs.mjs || echo \"no personal data in the script\"",
+  "command": "cd /c/dev/enebaproject && node --check scripts/export-chat-logs.mjs && echo syntax-ok && grep -n -iE '<user>|gustas|gmail' scripts/export-chat-logs.mjs || echo \"no personal data in the script\"",
   "description": "Syntax-check the script and confirm no personal data"
 }
 ```
@@ -9876,7 +9876,7 @@ The script now holds no personal data. Before the final push I'll check the whol
 
 ```json
 {
-  "command": "git grep -n -iE 'grubliausk|gmail|grubl' -- . ':!*.lock' ':!*package-lock.json' | head -10",
+  "command": "git grep -n -iE '<name>|gmail|<user>' -- . ':!*.lock' ':!*package-lock.json' | head -10",
   "description": "Search tracked files for personal identifiers"
 }
 ```
@@ -10095,7 +10095,7 @@ Mermaid ER diagrams need one attribute per line; semicolons don't separate attri
 
 ```json
 {
-  "command": "git grep -n -iE 'grubl' -- . ':!*.lock' ':!*package-lock.json' | head; git status --short | head -20",
+  "command": "git grep -n -iE '<user>' -- . ':!*.lock' ':!*package-lock.json' | head; git status --short | head -20",
   "description": "Recheck personal data and list pending changes"
 }
 ```
@@ -10225,7 +10225,7 @@ All ten phases are built and pushed to GitHub (final commit `561d04a`). You stil
    ```
    It removes emails, names, your Windows user name in paths, Render IDs and anything shaped like a key or token.
 2. **Decide about one more transcript folder.** There is also `c--Users-<user>-OneDrive-Desktop-eneba` from Nov 10. If it belongs to this assignment, pass all three folders as arguments, since passing any folder replaces the two defaults.
-3. **Optional:** older commits of `PLAN.md` contain your Windows user name `grubl` in a file path. The current version no longer does, but removing it from history would need a history rewrite.
+3. **Optional:** older commits of `PLAN.md` contain your Windows user name `<user>` in a file path. The current version no longer does, but removing it from history would need a history rewrite.
 
 A background check on the final deploy is still running; I'll confirm when it finishes.
 
@@ -11596,7 +11596,7 @@ All green locally (backend 96, frontend 21). Committing and pushing, then watchi
 ```
 Exit code 1
 run 
-failed to get run: HTTP 404: Not Found (https://api.github.com/repos/<name>grub/enebaproject/actions/runs/?exclude_pull_requests=true)
+failed to get run: HTTP 404: Not Found (https://api.github.com/repos/Gustasgrub/enebaproject/actions/runs/?exclude_pull_requests=true)
 ```
 
 </details>
@@ -11901,3 +11901,562 @@ what are the demo accounts and site adress
 **Admin account:** `admin@example.com` / `anabe-admin` exists only on a local setup. On the live site no one is admin yet: add your email as `ADMIN_EMAILS` on the `anabe-api` service in the Render dashboard, then log in with that account.
 
 The first load after about 15 idle minutes takes 30–60 seconds while the free server wakes up; the page says so while it waits.
+
+## User
+
+add a demo admin account to the live site
+
+## Claude
+
+I'll make `admin@example.com` / `anabe-admin` a demo admin on the live site. Its email will always count as an admin in code, and production will create the account on start. `ADMIN_EMAILS` still works for adding your own email privately.
+
+One trade-off: with a public password, any visitor can hide, reorder or delete homepage blocks. I'll mention ways to limit that after it's live.
+
+<details><summary>Tool call: Bash: Read admin config and demo account seeder</summary>
+
+```json
+{
+  "command": "cd /c/dev/enebaproject/backend && cat config/anabe.php database/seeders/DemoAccountSeeder.php | grep -n \"\" | sed -n '1,60p'",
+  "description": "Read admin config and demo account seeder"
+}
+```
+
+</details>
+
+<details><summary>Tool result</summary>
+
+```
+1:<?php
+2:
+3:return [
+4:
+5:    // Users with these email addresses can use the admin pages (comma-separated in ADMIN_EMAILS).
+6:    // Configured per environment, so no admin credentials are ever published with the demo.
+7:    'admin_emails' => array_values(array_filter(array_map(
+8:        fn (string $email) => strtolower(trim($email)),
+9:        explode(',', (string) env('ADMIN_EMAILS', '')),
+10:    ))),
+11:
+12:];
+13:<?php
+14:
+15:namespace Database\Seeders;
+16:
+17:use App\Models\User;
+18:use Illuminate\Database\Seeder;
+19:
+20:/**
+21: * A public demo account for reviewers (credentials in the README). Safe to run repeatedly: it only
+22: * creates the account when it is missing, so docker/start.sh runs it on every start, which also covers
+23: * a production database that was seeded before this account existed.
+24: */
+25:class DemoAccountSeeder extends Seeder
+26:{
+27:    public const EMAIL = 'demo@example.com';
+28:
+29:    public const PASSWORD = 'anabe-demo';
+30:
+31:    public function run(): void
+32:    {
+33:        User::firstOrCreate(
+34:            ['email' => self::EMAIL],
+35:            ['name' => 'Demo Buyer', 'password' => self::PASSWORD],
+36:        );
+37:
+38:        // A local admin for development (listed in .env.example's ADMIN_EMAILS). Never in production,
+39:        // where the password would be public.
+40:        if (app()->environment('local')) {
+41:            User::firstOrCreate(
+42:                ['email' => 'admin@example.com'],
+43:                ['name' => 'Local Admin', 'password' => 'anabe-admin'],
+44:            );
+45:        }
+46:    }
+47:}
+```
+
+</details>
+
+<details><summary>Tool call: Write</summary>
+
+```json
+{
+  "file_path": "c:\\dev\\enebaproject\\backend\\config\\anabe.php",
+  "content": "<?php\n\nreturn [\n\n    // The public demo admin (credentials in the README), so reviewers can try the admin pages on the\n    // live site. Always an admin, in every environment; DemoAccountSeeder creates the account.\n    'demo_admin_email' => 'admin@example.com',\n\n    // Further admins, kept out of the repository: comma-separated emails in ADMIN_EMAILS.\n    'admin_emails' => array_values(array_filter(array_map(\n        fn (string $email) => strtolower(trim($email)),\n        explode(',', (string) env('ADMIN_EMAILS', '')),\n    ))),\n\n];\n"
+}
+```
+
+</details>
+
+<details><summary>Tool call: Edit</summary>
+
+```json
+{
+  "replace_all": false,
+  "file_path": "c:\\dev\\enebaproject\\backend\\database\\seeders\\DemoAccountSeeder.php",
+  "old_string": "        // A local admin for development (listed in .env.example's ADMIN_EMAILS). Never in production,\n        // where the password would be public.\n        if (app()->environment('local')) {\n            User::firstOrCreate(\n                ['email' => 'admin@example.com'],\n                ['name' => 'Local Admin', 'password' => 'anabe-admin'],\n            );\n        }\n    }",
+  "new_string": "        // The public demo admin (config('anabe.demo_admin_email')), so reviewers can try /admin.\n        User::firstOrCreate(\n            ['email' => config('anabe.demo_admin_email')],\n            ['name' => 'Demo Admin', 'password' => self::ADMIN_PASSWORD],\n        );\n    }"
+}
+```
+
+</details>
+
+<details><summary>Tool call: Edit</summary>
+
+```json
+{
+  "replace_all": false,
+  "file_path": "c:\\dev\\enebaproject\\backend\\database\\seeders\\DemoAccountSeeder.php",
+  "old_string": "    public const PASSWORD = 'anabe-demo';",
+  "new_string": "    public const PASSWORD = 'anabe-demo';\n\n    public const ADMIN_PASSWORD = 'anabe-admin';"
+}
+```
+
+</details>
+
+<details><summary>Tool call: Edit</summary>
+
+```json
+{
+  "replace_all": false,
+  "file_path": "c:\\dev\\enebaproject\\backend\\database\\seeders\\DemoAccountSeeder.php",
+  "old_string": " * A public demo account for reviewers (credentials in the README).",
+  "new_string": " * Public demo accounts for reviewers, a buyer and an admin (credentials in the README)."
+}
+```
+
+</details>
+
+<details><summary>Tool call: Edit</summary>
+
+```json
+{
+  "replace_all": false,
+  "file_path": "c:\\dev\\enebaproject\\backend\\app\\Models\\User.php",
+  "old_string": "    /** Admins are listed by email in config('anabe.admin_emails') (the ADMIN_EMAILS variable). */\n    public function isAdmin(): bool\n    {\n        return in_array(strtolower($this->email), config('anabe.admin_emails'), true);\n    }",
+  "new_string": "    /** The public demo admin, plus anyone listed in the ADMIN_EMAILS variable (config/anabe.php). */\n    public function isAdmin(): bool\n    {\n        $email = strtolower($this->email);\n\n        return $email === config('anabe.demo_admin_email') || in_array($email, config('anabe.admin_emails'), true);\n    }"
+}
+```
+
+</details>
+
+<details><summary>Tool call: Edit</summary>
+
+```json
+{
+  "replace_all": false,
+  "file_path": "c:\\dev\\enebaproject\\backend\\.env.example",
+  "old_string": "# Who may use the admin pages (comma-separated emails). Locally the seeder creates admin@example.com\n# with the password anabe-admin; production sets its own list in the Render dashboard.\nADMIN_EMAILS=admin@example.com",
+  "new_string": "# Extra admins besides the public demo admin (admin@example.com / anabe-admin), comma-separated.\n# Production sets its own list in the Render dashboard.\nADMIN_EMAILS="
+}
+```
+
+</details>
+
+<details><summary>Tool call: Edit</summary>
+
+```json
+{
+  "replace_all": false,
+  "file_path": "c:\\dev\\enebaproject\\backend\\tests\\Feature\\AdminTest.php",
+  "old_string": "    public function test_a_new_platform_row_is_one_request_and_appears_on_the_homepage(): void",
+  "new_string": "    public function test_the_seeded_demo_admin_can_log_in_and_use_the_admin_pages(): void\n    {\n        $this->seed(DemoAccountSeeder::class);\n\n        $token = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => DemoAccountSeeder::ADMIN_PASSWORD])\n            ->assertJsonPath('data.user.is_admin', true)\n            ->json('data.token');\n\n        $this->withToken($token)->getJson('/api/admin/banners')->assertOk();\n    }\n\n    public function test_a_new_platform_row_is_one_request_and_appears_on_the_homepage(): void"
+}
+```
+
+</details>
+
+<details><summary>Tool call: Edit</summary>
+
+```json
+{
+  "replace_all": false,
+  "file_path": "c:\\dev\\enebaproject\\backend\\tests\\Feature\\AdminTest.php",
+  "old_string": "use App\\Models\\User;",
+  "new_string": "use App\\Models\\User;\nuse Database\\Seeders\\DemoAccountSeeder;"
+}
+```
+
+</details>
+
+<details><summary>Tool call: Bash: Run admin and auth tests</summary>
+
+```json
+{
+  "command": "vendor/bin/pint 2>&1 | tail -1; php artisan test --filter='AdminTest|AuthTest' 2>&1 | tail -1 | head -c 600",
+  "description": "Run admin and auth tests",
+  "timeout": 300000
+}
+```
+
+</details>
+
+<details><summary>Tool result</summary>
+
+```
+The file c:\dev\enebaproject\backend\config\anabe.php has been updated successfully. (file state is current in your context — no need to Read it back)
+```
+
+</details>
+
+<details><summary>Tool result</summary>
+
+```
+The file c:\dev\enebaproject\backend\database\seeders\DemoAccountSeeder.php has been updated successfully. (file state is current in your context — no need to Read it back)
+```
+
+</details>
+
+<details><summary>Tool result</summary>
+
+```
+The file c:\dev\enebaproject\backend\database\seeders\DemoAccountSeeder.php has been updated successfully. (file state is current in your context — no need to Read it back)
+```
+
+</details>
+
+<details><summary>Tool result</summary>
+
+```
+The file c:\dev\enebaproject\backend\database\seeders\DemoAccountSeeder.php has been updated successfully. (file state is current in your context — no need to Read it back)
+```
+
+</details>
+
+<details><summary>Tool result</summary>
+
+```
+The file c:\dev\enebaproject\backend\app\Models\User.php has been updated successfully.
+```
+
+</details>
+
+<details><summary>Tool result</summary>
+
+```
+The file c:\dev\enebaproject\backend\.env.example has been updated successfully.
+```
+
+</details>
+
+<details><summary>Tool result</summary>
+
+```
+The file c:\dev\enebaproject\backend\tests\Feature\AdminTest.php has been updated successfully. (file state is current in your context — no need to Read it back)
+```
+
+</details>
+
+<details><summary>Tool result</summary>
+
+```
+The file c:\dev\enebaproject\backend\tests\Feature\AdminTest.php has been updated successfully. (file state is current in your context — no need to Read it back)
+```
+
+</details>
+
+<details><summary>Tool result</summary>
+
+```
+{"tool":"pint","result":"passed"}{"tool":"phpunit","result":"passed","tests":13,"passed":13,"assertions":56,"duration_ms":1243}
+```
+
+</details>
+
+Tests pass (13). Next, the docs and the login page hint.
+
+<details><summary>Tool call: Bash: Update README, decision 27, and the login page hint</summary>
+
+```json
+{
+  "command": "cd /c/dev/enebaproject && python - <<'PY'\np='README.md'; s=open(p,encoding='utf-8').read()\ns=s.replace(\"| Demo account | `demo@example.com` / `anabe-demo` (or register your own) |\",\n\"| Demo account | `demo@example.com` / `anabe-demo` (or register your own) |\\n| Demo admin | `admin@example.com` / `anabe-admin`, then **Admin** in the header |\")\ns=s.replace(\"\"\"Admins are the emails in `ADMIN_EMAILS`. Locally that is `admin@example.com` / `anabe-admin` (created\nby the seeder); production's list is set in the Render dashboard, so there is no public admin login.\"\"\",\n\"\"\"The public demo admin `admin@example.com` / `anabe-admin` works everywhere, the live site included; more\nadmins can be added privately with the `ADMIN_EMAILS` variable (set in the Render dashboard). Being a\npublic login, anyone can change the live homepage layout with it.\"\"\")\nopen(p,'w',encoding='utf-8',newline='\\n').write(s)\np='docs/DECISIONS.md'; s=open(p,encoding='utf-8').read()\nold_start=s.index('### 27. Admins are listed by email in an environment variable')\nold_end=s.index('### 28.')\ns=s[:old_start]+\"\"\"### 27. A public demo admin, plus private admins by email\n\n- **Decision:** `admin@example.com` / `anabe-admin` is always an admin (`config('anabe.demo_admin_email')`,\n  created on every start by `DemoAccountSeeder`), so reviewers can try `/admin` on the live site. Further\n  admins are listed in `ADMIN_EMAILS`, set in the Render dashboard and never committed.\n- **Alternatives:** an `is_admin` column or a roles table; no admin login on the live site at all (the\n  first version did this, to stop visitors from switching off the homepage).\n- **Reason:** showing the admin pages to reviewers was judged worth more than protecting a demo\n  homepage. The cost: any visitor can hide or delete homepage blocks. Recovery is easy (re-add the blocks\n  in `/admin`, or recreate the database, which reseeds it). With real staff, a roles table would replace\n  this and the public login would go.\n\n\"\"\"+s[old_end:]\nopen(p,'w',encoding='utf-8',newline='\\n').write(s)\np='frontend/src/pages/AuthPages.tsx'; s=open(p,encoding='utf-8').read()\ns=s.replace(\"\"\"      Reviewing the demo? Log in as <strong>demo@example.com</strong> with the password <strong>anabe-demo</strong>, or create\n      your own account.\"\"\",\"\"\"      Reviewing the demo? Log in as <strong>demo@example.com</strong> with the password <strong>anabe-demo</strong>, or create\n      your own account. To try the admin pages: <strong>admin@example.com</strong> / <strong>anabe-admin</strong>.\"\"\")\nopen(p,'w',encoding='utf-8',newline='\\n').write(s)\nPY\ngrep -n \"Demo admin\\|anabe-admin\" README.md frontend/src/pages/AuthPages.tsx | head; grep -n \"### 27\" docs/DECISIONS.md",
+  "description": "Update README, decision 27, and the login page hint"
+}
+```
+
+</details>
+
+<details><summary>Tool result</summary>
+
+```
+README.md:12:| Demo admin | `admin@example.com` / `anabe-admin`, then **Admin** in the header |
+README.md:207:The public demo admin `admin@example.com` / `anabe-admin` works everywhere, the live site included; more
+frontend/src/pages/AuthPages.tsx:92:      your own account. To try the admin pages: <strong>admin@example.com</strong> / <strong>anabe-admin</strong>.
+301:### 27. A public demo admin, plus private admins by email
+```
+
+</details>
+
+<details><summary>Tool call: Bash: Typecheck, commit, push, and wait for CI</summary>
+
+```json
+{
+  "command": "cd C:/dev/enebaproject/frontend && npm run typecheck 2>&1 | grep -v '^>' | grep -v '^$' | tail -3; cd /c/dev/enebaproject && git add -A && git commit -q -F - <<'EOF'\nAdd a public demo admin to the live site\n\nadmin@example.com / anabe-admin is always an admin and is created on every container start,\nso reviewers can try /admin; ADMIN_EMAILS still adds private admins. README, login hint and\nDECISIONS.md #27 updated.\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\nEOF\ngit push -q origin main && git log --oneline -1 && sleep 8 && RUN=$(gh run list --limit 5 --json databaseId,headSha -q \".[] | select(.headSha | startswith(\\\"$(git rev-parse --short=7 HEAD)\\\")) | .databaseId\" | head -1) && gh run watch \"$RUN\" --exit-status --interval 15 > /dev/null 2>&1; gh run view \"$RUN\" --json conclusion -q .conclusion",
+  "description": "Typecheck, commit, push, and wait for CI",
+  "timeout": 600000
+}
+```
+
+</details>
+
+<details><summary>Tool result</summary>
+
+```
+3b10e36 Add a public demo admin to the live site
+success
+```
+
+</details>
+
+CI passed. Next I'll wait for the API deploy, then log in as the demo admin on the live site.
+
+<details><summary>Tool call: Bash: Wait for the API deploy and verify the demo admin on production</summary>
+
+```json
+{
+  "command": "for i in $(seq 1 50); do s=$(render deploys list <render-id> -o json 2>/dev/null | node -e 'const d=JSON.parse(require(\"fs\").readFileSync(0,\"utf8\")).map(x=>x.deploy??x).find(x=>x.commit?.id?.startsWith(\"3b10e36\")); console.log(d?.status ?? \"pending\")'); case \"$s\" in live|*failed|canceled) break;; esac; sleep 15; done; echo \"api deploy: $s\"; A=https://anabe-api.onrender.com/api; T=$(curl -s -X POST $A/login -H 'Accept: application/json' -H 'Content-Type: application/json' -d '{\"email\":\"admin@example.com\",\"password\":\"anabe-admin\"}' | node -e 'const r=JSON.parse(require(\"fs\").readFileSync(0,\"utf8\")).data; console.log(r.user.is_admin, r.token)'); set -- $T; echo \"is_admin=$1\"; curl -s -o /dev/null -w 'admin blocks: %{http_code}\\n' $A/admin/homepage-blocks -H \"Authorization: Bearer $2\" -H 'Accept: application/json'",
+  "description": "Wait for the API deploy and verify the demo admin on production",
+  "timeout": 900000
+}
+```
+
+</details>
+
+<details><summary>Tool result</summary>
+
+```
+api deploy: live
+is_admin=true
+admin blocks: 200
+```
+
+</details>
+
+The demo admin works on the live site. I logged in on production as the demo admin: it comes back as an admin, and the admin page's data loads.
+
+- **Site:** https://anabe-web.onrender.com
+- **Demo admin:** `admin@example.com` / `anabe-admin`. After logging in, **Admin** appears in the header, linking to `/admin`.
+- **Demo buyer:** `demo@example.com` / `anabe-demo`.
+
+The account is created whenever the server starts, so it survives restarts and a recreated database. The login page now shows both demo logins. The README and DECISIONS #27 are updated, the change is pushed as `3b10e36`, and CI passed.
+
+Because the password is public, anyone can hide, reorder or delete homepage blocks, switch banners off, or add keys. If that happens, re-add the blocks in `/admin`, or recreate the database to reseed it. If you'd rather prevent it, I can block deleting from the demo admin, or reset the homepage layout every hour.
+
+## User
+
+commit this change and also the ai logs
+
+## Claude
+
+The demo-admin change is already committed and pushed (`3b10e36`). I'll check nothing is left uncommitted, then export the chat logs.
+
+<details><summary>Tool call: Bash: Check working tree and export the chat logs</summary>
+
+```json
+{
+  "command": "git status --short; EXPORT_SCRUB_NAMES=\"<name>,<name>,<name>\" node scripts/export-chat-logs.mjs",
+  "description": "Check working tree and export the chat logs",
+  "timeout": 120000
+}
+```
+
+</details>
+
+<details><summary>Tool result</summary>
+
+```
+Wrote 2026-11-16-plan-md-review.md (133 KB)
+Wrote 2026-11-16-phase-one-continuation.md (682 KB)
+```
+
+</details>
+
+The working tree was clean, and the export wrote two files. Before committing, I'll scan them for anything personal or secret that the scrubbing might have missed.
+
+<details><summary>Tool call: Bash: Scan the exported logs for personal data and secrets</summary>
+
+```json
+{
+  "command": "echo \"== personal data\"; grep -c -iE '<name>|gmail\\.com|<user>\\b|Users[\\\\/]+<user>|/c/Users/<user>|c--Users-<user>' ai-logs/*.md; grep -o -iE '.{25}(<user>|gmail).{25}' ai-logs/*.md | head -5; echo \"== emails left\"; grep -ohE '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}' ai-logs/*.md | sort | uniq -c; echo \"== secrets\"; grep -cE 'base64:[A-Za-z0-9+/]{40,}|\\b[0-9]+\\|[A-Za-z0-9]{40}\\b|\\bsk-[A-Za-z0-9_-]{20,}|gh[pousr]_[A-Za-z0-9]{30,}|(usr|tea|srv|dpg)-[a-z0-9]{20}' ai-logs/*.md; echo \"== uuids (account/org)\"; grep -oiE '(accountUuid|organizationUuid)[^,]{0,60}' ai-logs/*.md | head -3",
+  "description": "Scan the exported logs for personal data and secrets"
+}
+```
+
+</details>
+
+<details><summary>Tool result</summary>
+
+```
+== personal data
+ai-logs/2026-11-16-phase-one-continuation.md:22
+ai-logs/2026-11-16-plan-md-review.md:35
+ai-logs/2026-11-16-phase-one-continuation.md: check\" && grep -c -iE '<name>|gmail|Users[\\\\/]+
+ai-logs/2026-11-16-phase-one-continuation.md:*.md; grep -o -iE '.{30}(<name>|gmail).{30}' ai-log
+ai-logs/2026-11-16-phase-one-continuation.md:yntax-ok && grep -n -iE '<user>|gustas|gmail' scripts/ex
+ai-logs/2026-11-16-phase-one-continuation.md:mand": "git grep -n -iE '<name>|gmail|<user>' -- . '
+ai-logs/2026-11-16-phase-one-continuation.md:mand": "git grep -n -iE '<user>' -- . ':!*.lock' ':!*pac
+== emails left
+      8 ada@example.com
+     27 admin@example.com
+      2 boss@example.com
+     14 demo@example.com
+      1 hello@example.com
+      1 nadmin@example.com
+      1 nobody@example.com
+     17 noreply@anthropic.com
+      2 taken@example.com
+== secrets
+ai-logs/2026-11-16-phase-one-continuation.md:0
+ai-logs/2026-11-16-plan-md-review.md:0
+== uuids (account/org)
+ai-logs/2026-11-16-phase-one-continuation.md:accountUuid"
+ai-logs/2026-11-16-phase-one-continuation.md:organizationUuid"
+```
+
+</details>
+
+<details><summary>Tool call: Bash: Show remaining username matches in the planning log</summary>
+
+```json
+{
+  "command": "grep -o -iE '.{40}(<user>|gmail).{30}' ai-logs/2026-11-16-plan-md-review.md | sort | uniq -c | sort -rn | head -12",
+  "description": "Show remaining username matches in the planning log"
+}
+```
+
+</details>
+
+<details><summary>Tool result</summary>
+
+```
+(Bash completed with no output)
+```
+
+</details>
+
+<details><summary>Tool call: Bash: Show remaining matches with flexible context</summary>
+
+```json
+{
+  "command": "grep -o -iE '.{0,40}(<user>|gmail|<name>).{0,30}' ai-logs/2026-11-16-plan-md-review.md | sort | uniq -c | sort -rn | head -12",
+  "description": "Show remaining matches with flexible context"
+}
+```
+
+</details>
+
+<details><summary>Tool result</summary>
+
+```
+      2 drwxr-xr-x 1 <user> 197609     0 Nov 16 22:51 des
+      2 drwxr-xr-x 1 <user> 197609     0 Nov 16 22:51 ..
+      2 drwxr-xr-x 1 <user> 197609       0 Nov 16 22:51 .
+      2 drwxr-xr-x 1 <user> 197609       0 Nov 16 22:49 .
+      2 drwxr-xr-x 1 <user> 197609       0 Nov 16 22:18 .
+      2 -rw-r--r-- 1 <user> 197609 13963 Nov 16 22:15 PLA
+      1 drwxr-xr-x 1 <user> 197609 0 Nov 16 22:51 .
+      1 drwxr-xr-x 1 <user> 197609 0 Nov 16 22:15 ..
+      1 drwxr-xr-x 1 <user> 197609     0 Nov 16 22:59 ai-
+      1 drwxr-xr-x 1 <user> 197609     0 Nov 16 22:59 .gi
+      1 drwxr-xr-x 1 <user> 197609     0 Nov 16 22:59 .
+      1 drwxr-xr-x 1 <user> 197609     0 Nov 16 22:55 doc
+```
+
+</details>
+
+Those are `ls -la` listings, where the file-owner column is your user name. I'll make the script replace the user name as a whole word anywhere, then re-export.
+
+<details><summary>Tool call: Edit</summary>
+
+```json
+{
+  "replace_all": false,
+  "file_path": "c:\\dev\\enebaproject\\scripts\\export-chat-logs.mjs",
+  "old_string": "  [new RegExp(`(--Users-)${homeName}\\\\b`, 'gi'), '$1<user>'],",
+  "new_string": "  [new RegExp(`(--Users-)${homeName}\\\\b`, 'gi'), '$1<user>'],\n  // Anywhere else the user name appears on its own, e.g. as the file owner in `ls -l` output.\n  [new RegExp(`\\\\b${escapeRegExp(homeName)}\\\\b`, 'gi'), '<user>'],"
+}
+```
+
+</details>
+
+<details><summary>Tool call: Bash: Re-export and recheck for personal data</summary>
+
+```json
+{
+  "command": "EXPORT_SCRUB_NAMES=\"<name>,<name>,<name>\" node scripts/export-chat-logs.mjs && grep -c -iE '<name>|<user>\\b|gmail\\.com' ai-logs/*.md; grep -o -iE '.{0,30}(<user>|<name>).{0,20}' ai-logs/*.md | head -5; grep -c \"Gustas\" ai-logs/*.md",
+  "description": "Re-export and recheck for personal data",
+  "timeout": 120000
+}
+```
+
+</details>
+
+<details><summary>Tool result</summary>
+
+```
+The file c:\dev\enebaproject\scripts\export-chat-logs.mjs has been updated successfully. (file state is current in your context — no need to Read it back)
+```
+
+</details>
+
+<details><summary>Tool result</summary>
+
+```
+Wrote 2026-11-16-plan-md-review.md (133 KB)
+Wrote 2026-11-16-phase-one-continuation.md (687 KB)
+ai-logs/2026-11-16-phase-one-continuation.md:8
+ai-logs/2026-11-16-plan-md-review.md:0
+ai-logs/2026-11-16-phase-one-continuation.md: data check\" && grep -c -iE '<name>|gmail|Users[\\\\/]+
+ai-logs/2026-11-16-phase-one-continuation.md:logs/*.md; grep -o -iE '.{30}(<name>|gmail).{30}' ai-log
+ai-logs/2026-11-16-phase-one-continuation.md: "command": "git grep -n -iE '<name>|gmail|<user>' -- . 
+ai-logs/2026-11-16-phase-one-continuation.md:personal data\"; grep -c -iE '<name>|gmail\\.com|<user>\
+ai-logs/2026-11-16-phase-one-continuation.md:n.md: check\" && grep -c -iE '<name>|gmail|Users[\\\\/]+
+ai-logs/2026-11-16-phase-one-continuation.md:7
+ai-logs/2026-11-16-plan-md-review.md:10
+```
+
+</details>
+
+Two things remain. My grep commands contain the surname's prefix "<name>". The first name also appears: I'll check whether that's only the public GitHub handle "Gustasgrub".
+
+<details><summary>Tool call: Bash: Show contexts of the first name in the logs</summary>
+
+```json
+{
+  "command": "grep -o -E '.{0,30}Gustas.{0,25}' ai-logs/*.md | sed 's/.*md://' | sort | uniq -c | sort -rn | head -10",
+  "description": "Show contexts of the first name in the logs"
+}
+```
+
+</details>
+
+<details><summary>Tool result</summary>
+
+```
+      2 origin	https://github.com/Gustasgrub/enebaproject.git (pu
+      2 origin	https://github.com/Gustasgrub/enebaproject.git (fe
+      2  `anabe` and connect GitHub (`Gustasgrub/enebaproject`) to it
+      1 → Blueprint** and pick the `Gustasgrub/enebaproject` repo o
+      1 ogs/*.md | head -5; grep -c \"Gustas\" ai-logs/*.md",
+      1 https://github.com/Gustasgrub/enebaproject
+      1 gged in to github.com account Gustasgrub (keyring)
+      1 ct","url":"https://github.com/Gustasgrub/enebaproject","visib
+      1 b. You're logged into `gh` as Gustasgrub; tell me the repo na
+      1 To https://github.com/Gustasgrub/enebaproject.git
+```
+
+</details>
+
+Every remaining first-name match is the GitHub handle `Gustasgrub`, which is already public in the repo URL, so it stays. I'll add the surname prefix to the scrub list and re-export.
+
+<details><summary>Tool call: Bash: Re-export with the surname prefix and recheck</summary>
+
+```json
+{
+  "command": "EXPORT_SCRUB_NAMES=\"<name>,<name>,<name>,<name>\" node scripts/export-chat-logs.mjs && echo \"== personal:\" && grep -c -iE '<name>|<user>\\b|gmail\\.com|Gustas ' ai-logs/*.md; echo \"== secrets:\" && grep -cE 'base64:[A-Za-z0-9+/]{40,}|\\b[0-9]+\\|[A-Za-z0-9]{40}\\b|\\bsk-[A-Za-z0-9_-]{20,}|gh[pousr]_[A-Za-z0-9]{30,}|(usr|tea|srv|dpg)-[a-z0-9]{20}' ai-logs/*.md; head -12 ai-logs/2026-11-16-plan-md-review.md",
+  "description": "Re-export with the surname prefix and recheck",
+  "timeout": 120000
+}
+```
+
+</details>

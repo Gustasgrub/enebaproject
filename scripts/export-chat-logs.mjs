@@ -53,6 +53,8 @@ const replacements = [
   [new RegExp(`([A-Za-z]:[\\\\/]+Users[\\\\/]+)${homeName}\\b`, 'gi'), '$1<user>'],
   [new RegExp(`(/[a-z]/Users/)${homeName}\\b`, 'gi'), '$1<user>'],
   [new RegExp(`(--Users-)${homeName}\\b`, 'gi'), '$1<user>'],
+  // Anywhere else the user name appears on its own, e.g. as the file owner in `ls -l` output.
+  [new RegExp(`\\b${escapeRegExp(homeName)}\\b`, 'gi'), '<user>'],
 ]
 
 function scrub(text) {
