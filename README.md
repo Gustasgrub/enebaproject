@@ -66,6 +66,8 @@ cd frontend && npm run typecheck      # strict TypeScript
 
 ## Deployment
 
+**Live:** https://anabe-web.onrender.com (API: https://anabe-api.onrender.com/api/health)
+
 Production runs on Render's free plan in Frankfurt. All of it is defined in [render.yaml](render.yaml):
 
 | Resource    | Type                 | What it is |
@@ -78,6 +80,9 @@ Every push to `main` redeploys whichever of the two apps changed.
 
 The free web service sleeps after 15 minutes without traffic, so the first request after that takes
 30–60 seconds; the frontend shows "Waking up the server…" while it waits.
+
+The free Render Postgres database was created on 2026-11-16 and **expires on 2026-12-16**. To replace it,
+recreate the database from the Blueprint and redeploy the API, which migrates the new database on start.
 
 **First-time setup** (once, in the Render dashboard): in the `anabe` workspace choose
 New → Blueprint, pick this repository and apply. Render asks for the one secret, `APP_KEY`.

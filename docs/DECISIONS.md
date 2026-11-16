@@ -165,10 +165,11 @@ describe the intended design; they are updated if the implementation ends up dif
 
 - **Decision:** `num_threads 4` in `backend/docker/Caddyfile`.
 - **Alternatives:** FrankenPHP's default of 2 threads per CPU.
-- **Reason:** the default depends on how many CPUs the container sees, and on shared hardware that is
-  the host's count, not the 0.1 CPU the free plan grants: a local test run reported 32 CPUs, which
-  would mean 64 threads. Four threads still serve the homepage's block requests in parallel, and four
-  requests at PHP's 128 MB memory limit stay within the free instance's 512 MB.
+- **Reason:** the default depends on the CPUs the container sees, so it changes with the machine. On
+  Render's free plan (0.1 CPU) it is 2 threads, which would serve only two of the homepage's block
+  requests at a time; in a local container with no CPU limit it was 64 (32 CPUs). Waiting on the
+  database barely uses the CPU, so 4 threads overlap that waiting even on 0.1 CPU, and four requests
+  at PHP's 128 MB memory limit stay within the free instance's 512 MB.
 
 ### 17. The production database accepts no connections from the internet
 
