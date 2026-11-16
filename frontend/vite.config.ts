@@ -8,5 +8,7 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
+    // Tests must not depend on a developer's .env (CI has none): a fixed API base URL.
+    env: { VITE_API_URL: 'http://localhost:8000' },
   },
 })
