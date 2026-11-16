@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router'
 import { RequireAuth } from './auth/RequireAuth'
 import { Layout } from './components/layout/Layout'
+import { AdminPage } from './pages/AdminPage'
 import { AuthPage } from './pages/AuthPages'
 import { CartPage } from './pages/CartPage'
 import { CheckoutPage } from './pages/CheckoutPage'
@@ -24,6 +25,7 @@ export const router = createBrowserRouter([
       { path: 'checkout', element: <RequireAuth><CheckoutPage /></RequireAuth> },
       { path: 'orders', element: <RequireAuth><OrdersPage /></RequireAuth> },
       { path: 'orders/:id', element: <RequireAuth><OrderPage /></RequireAuth> },
+      { path: 'admin', element: <RequireAuth><AdminPage /></RequireAuth> },
       { path: '*', element: <NotFoundPage /> },
     ],
   },

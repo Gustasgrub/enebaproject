@@ -248,13 +248,15 @@ describe the intended design; they are updated if the implementation ends up dif
 
 - **Decision:** a block whose request fails shows a small "could not be loaded" note with a retry
   button, except the hero banner, which hides (a broken hero looks worse than none). A block that crashes
-  while rendering is caught by its own error boundary. Each block's data is cached for 60 seconds under
-  a key that includes the block's `updated_at`.
+  while rendering is caught by its own error boundary. Each block's data is cached for 60 seconds; saving
+  or deleting the block (or changing a banner) clears its entry.
 - **Alternatives:** hide every failed block; cache for minutes or hours; clear the cache on every sale.
 - **Reason:** a visible note tells the visitor something is missing and offers a retry without
   reloading the page. Sixty seconds absorbs repeated visits while keeping prices and stock close to
   live; checkout re-reads both from the database anyway, so a slightly stale card can never sell at a
-  wrong price. Keying on `updated_at` makes a config change show up immediately.
+  wrong price. Clearing the entry on change makes an admin edit show up immediately. (A first version
+  put `updated_at` in the cache key instead; timestamps have whole-second precision, so two edits within
+  a second reused the stale entry. The admin tests caught it.)
 
 ### 24. Auth uses Sanctum bearer tokens kept in localStorage
 
@@ -283,3 +285,32 @@ describe the intended design; they are updated if the implementation ends up dif
   and merging carts at login. A browser cart works for visitors right away and survives reloads. Saving
   prices in the browser would show stale or tampered prices; storing only ids makes the server the
   single source of truth, and the client is never trusted with an amount.
+
+### 26. Abandoned checkouts are released by the scheduler, in the same container
+
+- **Decision:** `checkout:release-expired` runs every minute (`php artisan schedule:work`, started in the
+  background by `docker/start.sh`). Pending orders older than 15 minutes become `failed` and their
+  reserved keys go back on sale; the orders are locked with `SKIP LOCKED`, so a checkout that is
+  confirming at that moment is left alone. Confirm re-reads its order under a lock and does nothing if
+  the order already expired.
+- **Alternatives:** a Render cron job (not on the free plan); releasing at the start of every checkout
+  (stock shown on pages would stay wrong until someone checks out).
+- **Reason:** works on the free plan with no extra service. While the free instance sleeps the
+  scheduler sleeps too, but then nobody can check out either, and it catches up on the next start.
+
+### 27. Admins are listed by email in an environment variable
+
+- **Decision:** `ADMIN_EMAILS` (comma-separated) decides who can use `/admin` and the `/api/admin/*`
+  routes (Gate `admin`). Locally the seeder creates `admin@example.com`; production's list is set in the
+  Render dashboard.
+- **Alternatives:** an `is_admin` column or a roles table; a public demo admin account.
+- **Reason:** one admin is enough for this project and needs no migration or UI to grant rights. A
+  public admin login on the live demo would let any visitor switch off the homepage for the reviewers.
+  With more staff and roles, a roles table would replace it.
+
+### 28. CI gates deploys
+
+- **Decision:** GitHub Actions runs Pint and PHPUnit against a Postgres 17 service, and the frontend's
+  typecheck, lint, tests and build. Both Render services use `autoDeployTrigger: checksPass`.
+- **Alternatives:** deploy on every commit and rely on running tests locally.
+- **Reason:** a red commit can no longer reach the public URL.

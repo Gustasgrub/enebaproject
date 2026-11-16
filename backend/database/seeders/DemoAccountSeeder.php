@@ -22,5 +22,14 @@ class DemoAccountSeeder extends Seeder
             ['email' => self::EMAIL],
             ['name' => 'Demo Buyer', 'password' => self::PASSWORD],
         );
+
+        // A local admin for development (listed in .env.example's ADMIN_EMAILS). Never in production,
+        // where the password would be public.
+        if (app()->environment('local')) {
+            User::firstOrCreate(
+                ['email' => 'admin@example.com'],
+                ['name' => 'Local Admin', 'password' => 'anabe-admin'],
+            );
+        }
     }
 }

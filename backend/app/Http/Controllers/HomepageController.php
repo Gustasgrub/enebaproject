@@ -35,9 +35,8 @@ class HomepageController extends Controller
         abort_unless($block->enabled, 404);
         $provider = $registry->providerFor($block->type) ?? abort(404, "No provider for block type '{$block->type}'.");
 
-        // The key includes updated_at, so editing a block's config takes effect immediately.
-        $cacheKey = "homepage-block:{$block->id}:{$block->updated_at?->timestamp}";
-        $items = Cache::remember($cacheKey, self::CACHE_SECONDS, fn () => $provider->getData($block->config));
+        // Saving or deleting a block (or one of its banners) clears this entry, so admin edits show at once.
+        $items = Cache::remember($block->cacheKey(), self::CACHE_SECONDS, fn () => $provider->getData($block->config));
 
         return response()->json(['data' => $items]);
     }

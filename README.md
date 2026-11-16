@@ -156,7 +156,7 @@ catalog in `backend/database/seeders/data/`, regenerate them with `php artisan c
 ## Tests
 
 ```sh
-cd backend && php artisan test        # PHPUnit against the anabe_test Postgres database (86 tests)
+cd backend && php artisan test        # PHPUnit against the anabe_test Postgres database (all suites)
 cd frontend && npm test               # Vitest + React Testing Library
 cd frontend && npm run typecheck      # strict TypeScript
 ```
@@ -171,10 +171,10 @@ Production runs on Render's free plan in Frankfurt. All of it is defined in [ren
 | Resource    | Type                 | What it is |
 |-------------|----------------------|------------|
 | `anabe-web` | Static site          | The React app, built from `frontend/` and served from Render's CDN |
-| `anabe-api` | Docker web service   | The Laravel API, built from `backend/Dockerfile` and served by FrankenPHP. On start it caches config, runs migrations, seeds an empty database, makes sure the demo account exists, then serves requests |
+| `anabe-api` | Docker web service   | The Laravel API, built from `backend/Dockerfile` and served by FrankenPHP. On start it caches config, runs migrations, seeds an empty database, makes sure the demo account exists, starts the scheduler, then serves requests |
 | `anabe-db`  | Render Postgres 17   | Reachable only from Render's private network |
 
-Every push to `main` redeploys whichever of the two apps changed.
+Every push to `main` that passes CI redeploys whichever of the two apps changed.
 
 The free Render Postgres database was created on 2026-11-16 and **expires on 2026-12-16**. To replace it,
 recreate the database from the Blueprint and redeploy the API, which migrates and seeds the new
@@ -197,21 +197,36 @@ EXPORT_SCRUB_NAMES="First Last,Last" node scripts/export-chat-logs.mjs
 Prompts and replies are complete; tool calls and results are shortened; email addresses, names, local
 paths, account ids and anything shaped like a key or token are replaced with placeholders.
 
+## Admin
+
+`/admin` (linked in the header for admins) manages the homepage layout (add a block such as a new
+platform row, rename, hide, reorder, delete), switches hero banners on and off, and adds key codes to a
+seller's offer. Changes show on the homepage immediately.
+
+Admins are the emails in `ADMIN_EMAILS`. Locally that is `admin@example.com` / `anabe-admin` (created
+by the seeder); production's list is set in the Render dashboard, so there is no public admin login.
+
+## Checkout safety
+
+- **Concurrent buyers:** keys are taken with `FOR UPDATE SKIP LOCKED`.
+  [CheckoutConcurrencyTest](backend/tests/Feature/CheckoutConcurrencyTest.php) holds a key locked from
+  a second database connection and proves checkout neither waits nor sells it twice.
+- **Abandoned checkouts:** if the server stops between reserving keys and confirming payment, a
+  scheduled job (`checkout:release-expired`, every minute) puts keys of orders pending for more than
+  15 minutes back on sale.
+
+## CI
+
+[.github/workflows/ci.yml](.github/workflows/ci.yml) runs Pint and PHPUnit against Postgres 17, and the
+frontend's typecheck, lint, tests and build, on every push and pull request. Render deploys a commit
+only once these checks pass.
+
 ## What I would do next
 
-Left out on purpose, to spend the time on the two deep features:
-
-- **CI:** a GitHub Actions workflow running the backend tests against a Postgres service and the
-  frontend typecheck, tests and build on every push, with Render deploying only after checks pass
-  (`autoDeployTrigger: checksPass`).
-- **Concurrency test for checkout:** a test that holds a key locked from a second database connection
-  while checkout runs, proving `FOR UPDATE SKIP LOCKED` reports "out of stock" instead of waiting, and
-  that two buyers of the last two keys get different keys.
-- **Reservation expiry:** if the server stops between reserving keys and confirming payment, the keys
-  stay `reserved`. A scheduled job that releases keys of `pending` orders older than a few minutes
-  would return them to stock.
-- **Admin:** a back office for sellers to add offers and upload keys, and for staff to edit products,
-  banners and homepage blocks (today they are changed in the database or the seeders).
+- **Payment provider:** replace the fake provider with Stripe payment intents and webhooks, and refund
+  automatically when a payment completes after its reservation expired (today it is only logged).
+- **Seller self-service:** let sellers manage their own offers and upload keys, with roles instead of
+  an admin email list.
 - **Search at scale:** a dedicated engine (Meilisearch/Elasticsearch) with per-word edit distance,
   synonyms and popularity ranking, once the catalog or traffic outgrows Postgres trigrams
   ([DECISIONS.md #21](docs/DECISIONS.md)).

@@ -23,7 +23,7 @@ services:
     dockerfilePath: ./backend/Dockerfile
     dockerContext: ./backend
     healthCheckPath: /api/health
-    autoDeployTrigger: commit
+    autoDeployTrigger: checksPass # deploy only commits that pass CI (.github/workflows/ci.yml)
     buildFilter:
       paths:
         - backend/**
@@ -31,6 +31,9 @@ services:
       # The only secret. sync: false means Render asks for the value when the Blueprint is first
       # created; it is entered in the dashboard and never committed.
       - key: APP_KEY
+        sync: false
+      # Who may use /admin (comma-separated emails). Not committed; set in the Render dashboard.
+      - key: ADMIN_EMAILS
         sync: false
       - key: APP_ENV
         value: production
@@ -68,7 +71,7 @@ services:
     runtime: static
     buildCommand: cd frontend && npm ci && npm run build
     staticPublishPath: ./frontend/dist
-    autoDeployTrigger: commit
+    autoDeployTrigger: checksPass # deploy only commits that pass CI (.github/workflows/ci.yml)
     buildFilter:
       paths:
         - frontend/**

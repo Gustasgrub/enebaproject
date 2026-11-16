@@ -27,6 +27,12 @@ class BlockRegistry
 
     public function __construct(private readonly Container $container) {}
 
+    /** @return list<string> every block type that has a provider */
+    public function types(): array
+    {
+        return array_keys(self::PROVIDERS);
+    }
+
     /** Null for a type without a provider. Resolved through the container, so tests can swap one. */
     public function providerFor(string $type): ?BlockProvider
     {

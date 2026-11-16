@@ -65,9 +65,10 @@ class AuthController extends Controller
         ], $status);
     }
 
-    /** @return array{id: int, name: string, email: string} */
+    /** @return array{id: int, name: string, email: string, is_admin: bool} */
     private function userData(User $user): array
     {
-        return ['id' => $user->id, 'name' => $user->name, 'email' => $user->email];
+        // is_admin only decides whether the frontend shows the admin link; the API checks it again itself.
+        return ['id' => $user->id, 'name' => $user->name, 'email' => $user->email, 'is_admin' => $user->isAdmin()];
     }
 }

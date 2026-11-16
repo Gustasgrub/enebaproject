@@ -23,7 +23,7 @@ type RequestOptions = {
   signal?: AbortSignal
 }
 
-async function request<T>(method: 'GET' | 'POST', path: string, { query, body, signal }: RequestOptions): Promise<T> {
+async function request<T>(method: 'GET' | 'POST' | 'PATCH' | 'DELETE', path: string, { query, body, signal }: RequestOptions): Promise<T> {
   const token = currentToken()
   const queryString = query && query.size > 0 ? `?${query.toString()}` : ''
 
@@ -77,4 +77,14 @@ export function apiGet<T>(path: string, query?: URLSearchParams, signal?: AbortS
 /** POST a JSON body to a backend path. */
 export function apiPost<T>(path: string, body?: unknown): Promise<T> {
   return request<T>('POST', path, { body })
+}
+
+/** PATCH a JSON body to a backend path (admin edits). */
+export function apiPatch<T>(path: string, body: unknown): Promise<T> {
+  return request<T>('PATCH', path, { body })
+}
+
+/** DELETE a backend path. */
+export function apiDelete(path: string): Promise<void> {
+  return request<void>('DELETE', path, {})
 }

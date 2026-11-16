@@ -104,6 +104,18 @@ class CheckoutService
     private function confirm(Order $order, PaymentResult $payment): Order
     {
         DB::transaction(function () use ($order, $payment) {
+            // Lock the order and check it is still pending: if this checkout took longer than
+            // ExpiredReservations allows, its keys were already given back and may be sold to someone
+            // else. Then the order stays failed (a real integration would refund the charge here).
+            $isStillPending = Order::whereKey($order->id)->lockForUpdate()->value('status') === OrderStatus::Pending;
+            if (! $isStillPending) {
+                if ($payment->succeeded) {
+                    report(new \RuntimeException("Order {$order->id} was paid after its reservation expired; refund {$payment->reference}."));
+                }
+
+                return;
+            }
+
             $reservedKeys = ProductKey::whereIn('order_item_id', $order->items()->select('id'))
                 ->where('status', KeyStatus::Reserved);
 
@@ -117,6 +129,6 @@ class CheckoutService
             }
         });
 
-        return $order;
+        return $order->refresh();
     }
 }

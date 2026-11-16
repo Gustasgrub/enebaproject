@@ -18,5 +18,9 @@ php artisan catalog:seed-if-empty
 # Make sure the public demo account exists (does nothing when it already does).
 php artisan db:seed --class=DemoAccountSeeder --force
 
+# The scheduler (releases expired checkout reservations every minute) runs in the background. Render's
+# free plan has no cron jobs; while the instance sleeps nobody can check out, so nothing is missed.
+php artisan schedule:work &
+
 # exec replaces this shell with FrankenPHP, so Render's stop signal reaches the server directly.
 exec frankenphp run --config docker/Caddyfile

@@ -4,7 +4,7 @@ import { useSyncExternalStore } from 'react'
 // the user logged in. The frontend and the API are on different sites, so the token is sent as a
 // bearer header instead of a cookie; the cost is that page scripts can read it (docs/DECISIONS.md #24).
 
-export type SessionUser = { id: number; name: string; email: string }
+export type SessionUser = { id: number; name: string; email: string; is_admin?: boolean }
 export type Session = { token: string; user: SessionUser }
 
 const STORAGE_KEY = 'anabe-session'

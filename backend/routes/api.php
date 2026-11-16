@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\FilterOptionsController;
@@ -33,6 +34,18 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/checkout', CheckoutController::class);
     Route::get('/orders', [OrderController::class, 'index']);
     Route::get('/orders/{order}', [OrderController::class, 'show']);
+});
+
+// Admin: only for the emails in ADMIN_EMAILS (Gate 'admin' in AppServiceProvider)
+Route::middleware(['auth:sanctum', 'can:admin'])->prefix('admin')->group(function () {
+    Route::get('/homepage-blocks', [Admin\HomepageBlockController::class, 'index']);
+    Route::post('/homepage-blocks', [Admin\HomepageBlockController::class, 'store']);
+    Route::post('/homepage-blocks/order', [Admin\HomepageBlockController::class, 'reorder']);
+    Route::patch('/homepage-blocks/{block}', [Admin\HomepageBlockController::class, 'update']);
+    Route::delete('/homepage-blocks/{block}', [Admin\HomepageBlockController::class, 'destroy']);
+    Route::get('/banners', [Admin\BannerController::class, 'index']);
+    Route::patch('/banners/{banner}', [Admin\BannerController::class, 'update']);
+    Route::post('/offers/{offer}/keys', [Admin\OfferKeyController::class, 'store']);
 });
 
 // Homepage: the layout, then each block's data in its own request

@@ -99,6 +99,11 @@ function AccountLinks() {
 
   return (
     <span className="flex items-center gap-4">
+      {session.user.is_admin && (
+        <Link to="/admin" className="hover:text-accent">
+          Admin
+        </Link>
+      )}
       <Link to="/orders" className="hover:text-accent">
         My orders
       </Link>

@@ -1,0 +1,62 @@
+# Runs on every push and pull request. Render deploys a commit only after these checks pass
+# (autoDeployTrigger: checksPass in render.yaml).
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    # Real Postgres, as locally: search (pg_trgm) and row locking cannot be tested on SQLite.
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: anabe
+          POSTGRES_PASSWORD: anabe
+          POSTGRES_DB: anabe_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U anabe -d anabe_test"
+          --health-interval 2s
+          --health-timeout 3s
+          --health-retries 15
+    steps:
+      - uses: actions/checkout@v5
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: pdo_pgsql
+          coverage: none
+      - run: composer install --no-interaction --no-progress --prefer-dist
+      # A throwaway key for this run only: key codes are encrypted with it in the tests.
+      - run: cp .env.example .env && php artisan key:generate
+      - run: vendor/bin/pint --test
+      - run: php artisan test
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+        env:
+          VITE_API_URL: http://localhost:8000

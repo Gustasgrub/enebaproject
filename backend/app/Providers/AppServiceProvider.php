@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use App\Payments\FakePaymentProvider;
 use App\Payments\PaymentProvider;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -27,5 +29,8 @@ class AppServiceProvider extends ServiceProvider
         // instead of silently running extra queries, so tests catch a missing eager load. Production
         // keeps working (just slower) if one ever slips through.
         Model::preventLazyLoading(! $this->app->isProduction());
+
+        // Used by the admin routes: Route::middleware('can:admin').
+        Gate::define('admin', fn (User $user) => $user->isAdmin());
     }
 }
