@@ -89,7 +89,7 @@ function DemoAccountHint(): ReactNode {
   return (
     <p className="mt-6 bg-card p-4 text-sm text-white/80">
       Reviewing the demo? Log in as <strong>demo@example.com</strong> with the password <strong>anabe-demo</strong>, or create
-      your own account.
+      your own account. To try the admin pages: <strong>admin@example.com</strong> / <strong>anabe-admin</strong>.
     </p>
   )
 }

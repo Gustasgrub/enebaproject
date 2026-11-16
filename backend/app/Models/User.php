@@ -32,10 +32,12 @@ class User extends Authenticatable
         ];
     }
 
-    /** Admins are listed by email in config('anabe.admin_emails') (the ADMIN_EMAILS variable). */
+    /** The public demo admin, plus anyone listed in the ADMIN_EMAILS variable (config/anabe.php). */
     public function isAdmin(): bool
     {
-        return in_array(strtolower($this->email), config('anabe.admin_emails'), true);
+        $email = strtolower($this->email);
+
+        return $email === config('anabe.demo_admin_email') || in_array($email, config('anabe.admin_emails'), true);
     }
 
     /** @return HasMany<Order, $this> */

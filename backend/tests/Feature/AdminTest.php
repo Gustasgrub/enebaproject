@@ -7,6 +7,7 @@ use App\Models\HomepageBlock;
 use App\Models\Offer;
 use App\Models\ProductKey;
 use App\Models\User;
+use Database\Seeders\DemoAccountSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\Sanctum;
@@ -36,6 +37,17 @@ class AdminTest extends TestCase
 
         $this->actingAsAdmin();
         $this->getJson('/api/admin/homepage-blocks')->assertOk()->assertJsonFragment(['types' => ['banner', 'bestsellers', 'deals', 'new_releases', 'platform_row']]);
+    }
+
+    public function test_the_seeded_demo_admin_can_log_in_and_use_the_admin_pages(): void
+    {
+        $this->seed(DemoAccountSeeder::class);
+
+        $token = $this->postJson('/api/login', ['email' => 'admin@example.com', 'password' => DemoAccountSeeder::ADMIN_PASSWORD])
+            ->assertJsonPath('data.user.is_admin', true)
+            ->json('data.token');
+
+        $this->withToken($token)->getJson('/api/admin/banners')->assertOk();
     }
 
     public function test_a_new_platform_row_is_one_request_and_appears_on_the_homepage(): void

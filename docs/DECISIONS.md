@@ -298,15 +298,17 @@ describe the intended design; they are updated if the implementation ends up dif
 - **Reason:** works on the free plan with no extra service. While the free instance sleeps the
   scheduler sleeps too, but then nobody can check out either, and it catches up on the next start.
 
-### 27. Admins are listed by email in an environment variable
+### 27. A public demo admin, plus private admins by email
 
-- **Decision:** `ADMIN_EMAILS` (comma-separated) decides who can use `/admin` and the `/api/admin/*`
-  routes (Gate `admin`). Locally the seeder creates `admin@example.com`; production's list is set in the
-  Render dashboard.
-- **Alternatives:** an `is_admin` column or a roles table; a public demo admin account.
-- **Reason:** one admin is enough for this project and needs no migration or UI to grant rights. A
-  public admin login on the live demo would let any visitor switch off the homepage for the reviewers.
-  With more staff and roles, a roles table would replace it.
+- **Decision:** `admin@example.com` / `anabe-admin` is always an admin (`config('anabe.demo_admin_email')`,
+  created on every start by `DemoAccountSeeder`), so reviewers can try `/admin` on the live site. Further
+  admins are listed in `ADMIN_EMAILS`, set in the Render dashboard and never committed.
+- **Alternatives:** an `is_admin` column or a roles table; no admin login on the live site at all (the
+  first version did this, to stop visitors from switching off the homepage).
+- **Reason:** showing the admin pages to reviewers was judged worth more than protecting a demo
+  homepage. The cost: any visitor can hide or delete homepage blocks. Recovery is easy (re-add the blocks
+  in `/admin`, or recreate the database, which reseeds it). With real staff, a roles table would replace
+  this and the public login would go.
 
 ### 28. CI gates deploys
 

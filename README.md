@@ -9,6 +9,7 @@ Demo project, not affiliated with Eneba. No real payments.
 | Try it | |
 |---|---|
 | Demo account | `demo@example.com` / `anabe-demo` (or register your own) |
+| Demo admin | `admin@example.com` / `anabe-admin`, then **Admin** in the header |
 | Test card, payment succeeds | `4242 4242 4242 4242`, any future expiry (e.g. `12/30`), any CVC |
 | Test card, payment declined | `4000 0000 0000 0002` |
 | Search with typos | `wticher`, `skyrm`, `hogwarts legasy`, `battlefeild` |
@@ -203,8 +204,9 @@ paths, account ids and anything shaped like a key or token are replaced with pla
 platform row, rename, hide, reorder, delete), switches hero banners on and off, and adds key codes to a
 seller's offer. Changes show on the homepage immediately.
 
-Admins are the emails in `ADMIN_EMAILS`. Locally that is `admin@example.com` / `anabe-admin` (created
-by the seeder); production's list is set in the Render dashboard, so there is no public admin login.
+The public demo admin `admin@example.com` / `anabe-admin` works everywhere, the live site included; more
+admins can be added privately with the `ADMIN_EMAILS` variable (set in the Render dashboard). Being a
+public login, anyone can change the live homepage layout with it.
 
 ## Checkout safety
 
