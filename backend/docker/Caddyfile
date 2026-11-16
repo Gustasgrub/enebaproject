@@ -18,6 +18,11 @@ http://:{$PORT:8080} {
 	root public/
 	encode zstd br gzip
 
+	# Covers and banners only change with a deploy; browsers may reuse them for a day instead of asking
+	# the free-tier server again for every image on every page.
+	@images path /covers/* /banners/*
+	header @images Cache-Control "public, max-age=86400"
+
 	# Serves files that exist in public/ and sends every other request to public/index.php.
 	php_server
 }

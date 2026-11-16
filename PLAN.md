@@ -105,7 +105,7 @@ and reviewers of this project will read it closely.
 
 ```
 users           id, name, email (unique), password, created_at
-products        id, slug (unique), name, description, image_url, platform, region, genre,
+products        id, slug (unique), name, description, image_path, platform, region, genre,
                 release_year, search_keywords (not null, default ''), search_text, created_at
 sellers         id, name, rating (0–5), created_at
 offers          id, product_id → products, seller_id → sellers,
@@ -115,7 +115,7 @@ product_keys    id, offer_id → offers, code (encrypted), status (available | r
 orders          id, user_id → users, status (pending | paid | failed), total_cents,
                 payment_reference (nullable), created_at
 order_items     id, order_id → orders, offer_id → offers, quantity, unit_price_cents
-banners         id, title, subtitle, image_url, link_url, position, active
+banners         id, title, subtitle, image_path, link_url, position, active
 homepage_blocks id, type, title, position, enabled, config (jsonb)
 ```
 
@@ -132,6 +132,11 @@ Notes:
   so the client is never trusted. Decision recorded in DECISIONS.md.
 - `platform` values: Steam, PlayStation, Xbox, Nintendo, EA App, Ubisoft Connect.
 - `region` values: Global, Europe, North America.
+- Every table also has Laravel's `created_at` and `updated_at`.
+- `image_path` is a path inside the API's `public/` folder (e.g. `covers/elden-ring.svg`); API responses
+  turn it into a full URL. Covers are shared by all editions (platform/region) of a game.
+- Statuses, `platform` and `region` are PHP enums and database check constraints; a further check
+  constraint enforces "key is `available` ⇔ key has no `order_item_id`" (DECISIONS.md #20).
 
 ## 6. Deep feature #1 — Typo-tolerant search
 

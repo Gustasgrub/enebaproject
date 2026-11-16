@@ -178,3 +178,37 @@ describe the intended design; they are updated if the implementation ends up dif
 - **Reason:** only the API needs the database, and it connects over Render's private network.
   Production seeds itself from inside the container (#11), so no developer machine needs access
   either. Closing the port removes the database from the internet entirely.
+
+### 18. The seeders use a fixed-seed random generator, not Faker
+
+- **Decision:** prices, stock and order history come from PHP's `Random\Randomizer` with a fixed seed;
+  names, descriptions and sellers are written out in `database/seeders/`.
+- **Alternatives:** Faker and model factories, as Laravel projects usually seed.
+- **Reason:** production seeds itself (#11), and the production image installs no dev dependencies, so
+  Faker is not there. A fixed seed also makes every run produce the same catalog, locally and in
+  production, so a problem seen with one product's price or stock can be reproduced. Factories (with Faker)
+  remain for tests.
+
+### 19. Placeholder covers are generated SVG files, committed and served as static files
+
+- **Decision:** `php artisan catalog:generate-art` draws a cover per game and an image per banner
+  (`App\Catalog\PlaceholderArt`), writes them to `backend/public/`, and they are committed. FrankenPHP
+  serves them directly, with a one-day cache header. The database stores the path; the API returns the URL.
+- **Alternatives:**
+  - Real cover art: copyrighted.
+  - Drawing each image in a PHP request: on a tenth of a CPU, ~50 covers on the homepage would compete
+    with the block data requests for the same four PHP threads.
+  - Generating images during seeding: the container disk is temporary, and production seeds only once,
+    so the images would vanish on the next restart.
+  - An external placeholder service: another dependency that can be down or slow.
+- **Reason:** static files cost the server almost nothing, the art is reviewable in the repository, and
+  the same name always draws the same picture. Colours avoid the site's purple so covers stand out.
+
+### 20. Status and catalog values are enforced by the database too
+
+- **Decision:** `status`, `platform` and `region` columns have check constraints matching their PHP enums,
+  and `product_keys` has a check constraint: a key is `available` exactly when it has no `order_item_id`.
+- **Alternatives:** validate only in PHP.
+- **Reason:** checkout (Phase 8) moves keys between available, reserved and sold under concurrency. If a
+  code path ever forgets to link or unlink an order item, the database refuses the write instead of
+  silently storing a key that is "sold" to nobody. The constraint costs one line of SQL.

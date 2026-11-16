@@ -12,5 +12,8 @@ php artisan route:cache
 # Bring the database schema up to date. --force confirms running migrations in production.
 php artisan migrate --force
 
+# Seed the demo catalog on the first start, when the database is still empty; later starts skip it.
+php artisan catalog:seed-if-empty
+
 # exec replaces this shell with FrankenPHP, so Render's stop signal reaches the server directly.
 exec frankenphp run --config docker/Caddyfile
