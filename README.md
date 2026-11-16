@@ -88,3 +88,19 @@ recreate the database from the Blueprint and redeploy the API, which migrates th
 New → Blueprint, pick this repository and apply. Render asks for the one secret, `APP_KEY`.
 Generate it locally with `php artisan key:generate --show`, copy it into the dashboard, and do not
 keep it anywhere else.
+
+## What I would do next
+
+Left out on purpose, to spend the time on the two deep features:
+
+- **CI:** a GitHub Actions workflow running the backend tests against a Postgres service and the
+  frontend typecheck, tests and build on every push, with Render deploying only after checks pass
+  (`autoDeployTrigger: checksPass`).
+- **Concurrency test for checkout:** a test that holds a key locked from a second database connection
+  while checkout runs, proving `FOR UPDATE SKIP LOCKED` reports "out of stock" instead of waiting, and
+  that two buyers of the last two keys get different keys.
+- **Reservation expiry:** if the server stops between reserving keys and confirming payment, the keys
+  stay `reserved`. A scheduled job that releases keys of `pending` orders older than a few minutes
+  would return them to stock.
+- **Admin:** a back office for sellers to add offers and upload keys, and for staff to edit products,
+  banners and homepage blocks (today they are changed in the database or the seeders).

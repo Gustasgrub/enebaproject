@@ -1,7 +1,54 @@
 // Shapes of the backend's JSON responses. Every API call is typed with one of these.
 
-export type HealthResponse = {
-  status: 'ok' | 'error'
-  database: string | null
-  checked_at: string
+export type Platform = 'Steam' | 'PlayStation' | 'Xbox' | 'Nintendo' | 'EA App' | 'Ubisoft Connect'
+
+export type Region = 'Global' | 'Europe' | 'North America'
+
+/** A product as shown on a card (ProductSummaryResource). Prices are euro cents. */
+export type ProductSummary = {
+  id: number
+  slug: string
+  name: string
+  image_url: string
+  platform: Platform
+  region: Region
+  genre: string
+  release_year: number
+  /** The cheapest offer that has stock; null means out of stock. */
+  price_cents: number | null
+  original_price_cents: number | null
+  discount_percent: number | null
+}
+
+export type ListResponse<T> = {
+  data: T[]
+}
+
+export type PaginatedResponse<T> = ListResponse<T> & {
+  meta: {
+    current_page: number
+    last_page: number
+    per_page: number
+    total: number
+  }
+}
+
+/** GET /api/products */
+export type ProductListResponse = PaginatedResponse<ProductSummary> & {
+  /** Set when a search found nothing but a product name is close to the query. */
+  did_you_mean: string | null
+}
+
+export type FilterOption = {
+  value: string
+  count: number
+}
+
+/** GET /api/filters */
+export type FilterOptionsResponse = {
+  data: {
+    platforms: FilterOption[]
+    regions: FilterOption[]
+    genres: FilterOption[]
+  }
 }

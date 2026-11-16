@@ -212,3 +212,34 @@ describe the intended design; they are updated if the implementation ends up dif
 - **Reason:** checkout (Phase 8) moves keys between available, reserved and sold under concurrency. If a
   code path ever forgets to link or unlink an order item, the database refuses the write instead of
   silently storing a key that is "sold" to nobody. The constraint costs one line of SQL.
+
+### 21. Search runs on Postgres `pg_trgm`, not a search engine
+
+- **Decision:** typo-tolerant search uses trigram matching inside Postgres: `LIKE '%query%'` for partial
+  names, plus the word-similarity operator `<%` for typos, word order and extra words, with a GIN
+  trigram index on `products.search_text`. Abbreviations come from each product's `search_keywords`.
+- **Alternatives:** Meilisearch, Typesense or Elasticsearch.
+- **Reason:** no extra service to host, keep in sync or pay for on a free tier, and search stays one SQL
+  query together with the store's filters, sort and pagination. For a catalog of ~90 products it is
+  more than enough. Honestly, at this size Postgres scans the table anyway; the index is there so the
+  same query keeps working as the catalog grows.
+- **Tuning:** the match threshold is 0.35, not the plan's starting 0.3. On this catalog every real typo
+  tried scored 0.38 or more, while games we do not sell scored up to 0.33 against some title
+  ("fortnite" vs Forza Horizon 5) and would have shown unrelated results. `tests/Feature/SearchTest.php`
+  holds the table of queries the value is tuned against.
+- **Limits, and what changes at scale:** trigrams count shared three-letter pieces, so they cannot tell
+  a swapped letter in a short word from an unrelated word with similar letters: "wichter hnut" finds
+  nothing, and "Did you mean" can suggest a look-alike title. A search engine scores each word by
+  edit distance, adds synonyms, popularity ranking and facets, and runs outside the main database. With
+  thousands of products, or search traffic that competes with checkout, that is the point to move.
+
+### 22. A product's price comes from a lateral join, computed per query
+
+- **Decision:** `Product::withCheapestOffer()` adds the cheapest in-stock offer with
+  `LEFT JOIN LATERAL (SELECT … ORDER BY price_cents LIMIT 1)`, and the store filters and sorts on it.
+- **Alternatives:** store a `min_price_cents` column on products and keep it updated; load all offers and
+  compute the price in PHP.
+- **Reason:** a stored price goes stale the moment a key sells or an offer changes, which is exactly the
+  stock-drift problem the data model avoids (stock = available keys). Computing it in PHP cannot filter
+  or sort in SQL and would need every offer of every product. The lateral join keeps one query per page,
+  and the existing `(offer_id, status)` index serves its stock check.

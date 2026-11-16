@@ -12,9 +12,16 @@ export class ApiError extends Error {
   }
 }
 
-export async function apiGet<T>(path: string): Promise<T> {
-  const response = await fetch(`${apiBaseUrl}${path}`, {
+/**
+ * GET a backend path, e.g. apiGet<ProductListResponse>('/api/products', query).
+ * `signal` comes from TanStack Query, which aborts requests whose result is no longer needed
+ * (for example a suggestion request for text the user has already changed).
+ */
+export async function apiGet<T>(path: string, query?: URLSearchParams, signal?: AbortSignal): Promise<T> {
+  const queryString = query && query.size > 0 ? `?${query.toString()}` : ''
+  const response = await fetch(`${apiBaseUrl}${path}${queryString}`, {
     headers: { Accept: 'application/json' },
+    signal,
   })
 
   if (!response.ok) {

@@ -10,22 +10,13 @@ use App\Models\Offer;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Seller;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Concerns\UsesSeededCatalog;
 use Tests\TestCase;
 
 /** The seeded catalog is what production runs on, so its shape and consistency are tested. */
 class CatalogSeedTest extends TestCase
 {
-    use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        // Seeded inside each test's transaction. (RefreshDatabase's $seed property only seeds when the
-        // schema is first migrated in a test run, which another test class may already have done.)
-        $this->seed();
-    }
+    use UsesSeededCatalog;
 
     public function test_the_catalog_has_the_planned_size(): void
     {
